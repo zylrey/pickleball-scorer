@@ -231,15 +231,19 @@ cursor:pointer;
 
 
 
-/* FOOTER */
+/* HEADER */
 
-.app-footer{
-margin-top:28px;
+.app-header{
+width:100%;
+max-width:640px;
+
+text-align:center;
 
 font-size:14px;
 color:white;
-opacity:.8;
-text-align:center;
+opacity:.85;
+
+margin-bottom:14px;
 }
 
 
