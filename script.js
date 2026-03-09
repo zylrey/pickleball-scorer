@@ -145,9 +145,9 @@ servingTeam = servingTeam === "A" ? "B" : "A"
 serverNumber = 1
 
 if(servingTeam === "A"){
-server = "a2"   // right side player of Team A
+server = "a2"   // right side Team A
 }else{
-server = "b2"   // right side player of Team B
+server = "b1"   // right side Team B (POV flipped)
 }
 
 }
@@ -171,15 +171,14 @@ server = teamASwapped ? "a2" : "a1"
 const even = scoreB % 2 === 0
 
 if(even){
-server = teamBSwapped ? "b1" : "b2"
-}else{
 server = teamBSwapped ? "b2" : "b1"
+}else{
+server = teamBSwapped ? "b1" : "b2"
 }
 
 }
 
 }
-
 
 
 function getPartner(player){
