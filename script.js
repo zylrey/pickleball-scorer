@@ -53,7 +53,6 @@ function resetGame(){
 scoreA = 0
 scoreB = 0
 
-servingTeam = "A"
 serverNumber = 2
 
 teamASwapped = false
