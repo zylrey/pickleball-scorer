@@ -1,69 +1,77 @@
-let scoreA=0
-let scoreB=0
+let scoreA = 0
+let scoreB = 0
+
+let servingTeam = "A"
+let serverNumber = 2
+let server = "a2"
+
+let players = {
+a1:"P1",
+a2:"P2",
+b1:"P3",
+b2:"P4"
+}
+
 let historyStack = []
+let rallyCount = 0
 
-let servingTeam="A"
-let serverNumber=2
-let server="a2"
-
-let teamASwapped=false
-let teamBSwapped=false
-let firstServiceTurn=true
-
-let rallyCount=0
-
-let teamAName="Team A"
-let teamBName="Team B"
-
-let players={a1:"P1",a2:"P2",b1:"P3",b2:"P4"}
-
-function openSettings(){
-document.getElementById("settingsModal").style.display="flex"
-document.body.classList.add("modal-open")
-}
-
-function closeSettings(){
-document.getElementById("settingsModal").style.display="none"
-document.body.classList.remove("modal-open")
-}
+let startSide = "right"
+let gamePoint = 11
 
 function startGame(){
 
-teamAName=document.getElementById("teamAName").value||"Team A"
-teamBName=document.getElementById("teamBName").value||"Team B"
+players.a1 = document.getElementById("nameA1").value || "P1"
+players.a2 = document.getElementById("nameA2").value || "P2"
+players.b1 = document.getElementById("nameB1").value || "P3"
+players.b2 = document.getElementById("nameB2").value || "P4"
 
-players.a1=document.getElementById("nameA1").value||"P1"
-players.a2=document.getElementById("nameA2").value||"P2"
-players.b1=document.getElementById("nameB1").value||"P3"
-players.b2=document.getElementById("nameB2").value||"P4"
+startSide = document.getElementById("startSide").value
+gamePoint = parseInt(document.getElementById("gameTo").value)
 
-document.getElementById("a1").innerText=players.a1
-document.getElementById("a2").innerText=players.a2
-document.getElementById("b1").innerText=players.b1
-document.getElementById("b2").innerText=players.b2
+document.getElementById("setupScreen").style.display="none"
+document.getElementById("gameScreen").style.display="block"
 
-closeSettings()
+document.getElementById("a1").innerText = players.a1
+document.getElementById("a2").innerText = players.a2
+document.getElementById("b1").innerText = players.b1
+document.getElementById("b2").innerText = players.b2
+
 resetGame()
+
+logEvent("Game Start")
 
 }
 
 function resetGame(){
 
-scoreA=0
-scoreB=0
+scoreA = 0
+scoreB = 0
 
-servingTeam="A"
-serverNumber=2
-server="a2"
+servingTeam = "A"
+serverNumber = 2
 
-teamASwapped=false
-teamBSwapped=false
-firstServiceTurn=true
+server = startSide === "right" ? "a2" : "a1"
 
+historyStack=[]
 rallyCount=0
+
 document.querySelector("#logTable tbody").innerHTML=""
 
 updateUI()
+
+}
+
+function saveState(){
+
+historyStack.push({
+
+scoreA,
+scoreB,
+servingTeam,
+serverNumber,
+server
+
+})
 
 }
 
@@ -71,12 +79,16 @@ function rallyWinner(team){
 
 saveState()
 
-if(team===servingTeam){
+if(team === servingTeam){
+
 scorePoint(team)
-logEvent((team==="A"?teamAName:teamBName)+" won rally")
+logEvent("Point")
+
 }else{
+
 loseServe()
-logEvent((team==="A"?teamAName:teamBName)+" won rally")
+logEvent("Side Out")
+
 }
 
 updateUI()
@@ -85,54 +97,62 @@ updateUI()
 
 function scorePoint(team){
 
-if(team==="A"){
-scoreA++
-teamASwapped=!teamASwapped
-}else{
-scoreB++
-teamBSwapped=!teamBSwapped
-}
+if(team==="A") scoreA++
+else scoreB++
 
-firstServiceTurn=false
 }
 
 function loseServe(){
 
-if(firstServiceTurn){
-sideOut()
-firstServiceTurn=false
-return
-}
+if(serverNumber === 1){
 
-if(serverNumber===1){
-serverNumber=2
-server=getPartner(server)
+serverNumber = 2
+server = getPartner(server)
+
 }else{
+
 sideOut()
+
 }
 
 }
 
 function sideOut(){
-servingTeam=servingTeam==="A"?"B":"A"
-serverNumber=1
-updateServerFromScore()
-}
 
-function updateServerFromScore(){
+servingTeam = servingTeam==="A"?"B":"A"
+serverNumber = 1
 
-if(servingTeam==="A"){
-const even=scoreA%2===0
-server=even?(teamASwapped?"a1":"a2"):(teamASwapped?"a2":"a1")
-}else{
-const even=scoreB%2===0
-server=even?(teamBSwapped?"b2":"b1"):(teamBSwapped?"b1":"b2")
-}
+server = servingTeam==="A"?"a1":"b1"
 
 }
 
 function getPartner(p){
-return {a1:"a2",a2:"a1",b1:"b2",b2:"b1"}[p]
+
+if(p==="a1") return "a2"
+if(p==="a2") return "a1"
+if(p==="b1") return "b2"
+if(p==="b2") return "b1"
+
+}
+
+function updateUI(){
+
+let callScore
+
+if(servingTeam==="A"){
+callScore = scoreA+"-"+scoreB+"-"+serverNumber
+}else{
+callScore = scoreB+"-"+scoreA+"-"+serverNumber
+}
+
+document.getElementById("serverName").innerText = callScore
+
+document.querySelectorAll(".player").forEach(p=>{
+p.classList.remove("serving")
+})
+
+document.getElementById(server).classList.add("serving")
+
 }
 
 function logEvent(event){
@@ -142,9 +162,9 @@ rallyCount++
 let callScore
 
 if(servingTeam==="A"){
-callScore=scoreA+"-"+scoreB+"-"+serverNumber
+callScore = scoreA+"-"+scoreB+"-"+serverNumber
 }else{
-callScore=scoreB+"-"+scoreA+"-"+serverNumber
+callScore = scoreB+"-"+scoreA+"-"+serverNumber
 }
 
 const row=document.createElement("tr")
@@ -160,65 +180,23 @@ document.querySelector("#logTable tbody").prepend(row)
 
 }
 
-function updateUI(){
+function undoAction(){
 
-let callScore
+if(historyStack.length===0) return
 
-if(servingTeam==="A"){
-callScore=scoreA+"-"+scoreB+"-"+serverNumber
-}else{
-callScore=scoreB+"-"+scoreA+"-"+serverNumber
-}
+const prev = historyStack.pop()
 
-document.getElementById("serverName").innerText=callScore
+scoreA = prev.scoreA
+scoreB = prev.scoreB
+servingTeam = prev.servingTeam
+serverNumber = prev.serverNumber
+server = prev.server
 
-document.querySelectorAll(".player").forEach(p=>p.classList.remove("serving"))
-document.getElementById(server).classList.add("serving")
+document.querySelector("#logTable tbody").removeChild(
+document.querySelector("#logTable tbody").firstChild
+)
 
-renderPositions()
-
-}
-
-function renderPositions(){
-
-const a1=document.getElementById("a1")
-const a2=document.getElementById("a2")
-const b1=document.getElementById("b1")
-const b2=document.getElementById("b2")
-
-if(teamASwapped){
-a1.style.top="auto";a1.style.bottom="15%"
-a2.style.bottom="auto";a2.style.top="15%"
-}else{
-a1.style.bottom="auto";a1.style.top="15%"
-a2.style.top="auto";a2.style.bottom="15%"
-}
-
-if(teamBSwapped){
-b1.style.top="auto";b1.style.bottom="15%"
-b2.style.bottom="auto";b2.style.top="15%"
-}else{
-b1.style.bottom="auto";b1.style.top="15%"
-b2.style.top="auto";b2.style.bottom="15%"
-}
-
-}
-
-function saveState(){
-
-historyStack.push({
-
-scoreA,
-scoreB,
-servingTeam,
-serverNumber,
-server,
-teamASwapped,
-teamBSwapped,
-firstServiceTurn,
-rallyCount
-
-})
+updateUI()
 
 }
 
@@ -229,10 +207,17 @@ const rows=document.querySelectorAll("#logTable tr")
 let csv=[]
 
 rows.forEach(row=>{
+
 const cols=row.querySelectorAll("th,td")
+
 let rowData=[]
-cols.forEach(col=>rowData.push(col.innerText))
+
+cols.forEach(col=>{
+rowData.push(col.innerText)
+})
+
 csv.push(rowData.join(","))
+
 })
 
 const blob=new Blob([csv.join("\n")],{type:"text/csv"})
@@ -245,28 +230,5 @@ a.download="pickleball_game_log.csv"
 document.body.appendChild(a)
 a.click()
 document.body.removeChild(a)
-
-}
-
-function undoAction(){
-
-if(historyStack.length===0) return
-
-const prev = historyStack.pop()
-
-scoreA = prev.scoreA
-scoreB = prev.scoreB
-servingTeam = prev.servingTeam
-serverNumber = prev.serverNumber
-server = prev.server
-teamASwapped = prev.teamASwapped
-teamBSwapped = prev.teamBSwapped
-firstServiceTurn = prev.firstServiceTurn
-rallyCount = prev.rallyCount
-
-const rows = document.querySelector("#logTable tbody")
-rows.removeChild(rows.firstChild)
-
-updateUI()
 
 }
