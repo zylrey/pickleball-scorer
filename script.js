@@ -100,7 +100,10 @@ if(team === servingTeam){
 scorePoint(team)
 logEvent("Point")
 
-}else{
+updateUI()
+return
+
+}
 
 if(serverNumber === 1){
 
@@ -109,19 +112,18 @@ server = getPartner(server)
 
 logEvent("Server Change")
 
-}else{
+updateUI()
+return
+
+}
 
 sideOut()
+
 logEvent("Side Out")
-
-}
-
-}
 
 updateUI()
 
 }
-
 
 
 function scorePoint(team){
