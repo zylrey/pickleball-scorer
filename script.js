@@ -5,6 +5,9 @@ let servingTeam = "A"
 let serverNumber = 2
 let server = "a2"
 
+let teamASwapped = false
+let teamBSwapped = false
+
 let players = {
 a1:"P1",
 a2:"P2",
@@ -54,6 +57,9 @@ serverNumber = 2
 
 server = startSide === "right" ? "a2" : "a1"
 
+teamASwapped = false
+teamBSwapped = false
+
 historyStack=[]
 rallyCount=0
 
@@ -72,7 +78,9 @@ scoreA,
 scoreB,
 servingTeam,
 serverNumber,
-server
+server,
+teamASwapped,
+teamBSwapped
 
 })
 
@@ -114,18 +122,32 @@ updateUI()
 
 function scorePoint(team){
 
-if(team==="A") scoreA++
-else scoreB++
+if(team==="A"){
+
+scoreA++
+teamASwapped = !teamASwapped
+
+}else{
+
+scoreB++
+teamBSwapped = !teamBSwapped
+
+}
 
 }
 
 
 function sideOut(){
 
-servingTeam = servingTeam==="A"?"B":"A"
+servingTeam = servingTeam==="A" ? "B" : "A"
+
 serverNumber = 1
 
-server = servingTeam==="A" ? "a1" : "b1"
+if(servingTeam==="A"){
+server = teamASwapped ? "a2" : "a1"
+}else{
+server = teamBSwapped ? "b2" : "b1"
+}
 
 }
 
@@ -157,6 +179,54 @@ p.classList.remove("serving")
 })
 
 document.getElementById(server).classList.add("serving")
+
+renderPositions()
+
+}
+
+
+function renderPositions(){
+
+const a1 = document.getElementById("a1")
+const a2 = document.getElementById("a2")
+const b1 = document.getElementById("b1")
+const b2 = document.getElementById("b2")
+
+if(teamASwapped){
+
+a1.style.top="auto"
+a1.style.bottom="15%"
+
+a2.style.bottom="auto"
+a2.style.top="15%"
+
+}else{
+
+a1.style.bottom="auto"
+a1.style.top="15%"
+
+a2.style.top="auto"
+a2.style.bottom="15%"
+
+}
+
+if(teamBSwapped){
+
+b1.style.top="auto"
+b1.style.bottom="15%"
+
+b2.style.bottom="auto"
+b2.style.top="15%"
+
+}else{
+
+b1.style.bottom="auto"
+b1.style.top="15%"
+
+b2.style.top="auto"
+b2.style.bottom="15%"
+
+}
 
 }
 
@@ -205,6 +275,8 @@ scoreB = prev.scoreB
 servingTeam = prev.servingTeam
 serverNumber = prev.serverNumber
 server = prev.server
+teamASwapped = prev.teamASwapped
+teamBSwapped = prev.teamBSwapped
 
 document.querySelector("#logTable tbody").removeChild(
 document.querySelector("#logTable tbody").firstChild
