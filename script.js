@@ -263,6 +263,7 @@ if(event==="Point") colorClass="log-point"
 if(event==="Server Change") colorClass="log-change"
 if(event==="Side Out") colorClass="log-sideout"
 if(event==="Game Start") colorClass="log-start"
+if(event==="Win") colorClass="log-win"
 
 const row=document.createElement("tr")
 
@@ -352,6 +353,8 @@ winner = "B"
 }
 
 if(!winner) return
+
+logEvent("Win")
 
 let mvp = players[server]
 
