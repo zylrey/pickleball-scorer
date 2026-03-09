@@ -33,7 +33,6 @@ document.getElementById("b1").innerText = players.b1
 document.getElementById("b2").innerText = players.b2
 
 resetGame()
-
 logEvent("Game Start")
 
 }
