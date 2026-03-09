@@ -22,7 +22,6 @@ let startSide = "right"
 let gamePoint = 11
 
 
-
 function startGame(){
 
 players.a1 = document.getElementById("nameA1").value || "P1"
@@ -48,7 +47,6 @@ logEvent("Game Start")
 }
 
 
-
 function resetGame(){
 
 scoreA = 0
@@ -57,10 +55,10 @@ scoreB = 0
 servingTeam = "A"
 serverNumber = 2
 
-server = startSide === "right" ? "a2" : "a1"
-
 teamASwapped = false
 teamBSwapped = false
+
+server = getRightSideServer()
 
 historyStack = []
 rallyCount = 0
@@ -71,6 +69,22 @@ updateUI()
 
 }
 
+
+function getRightSideServer(){
+
+if(servingTeam === "A"){
+
+// Team A right court = bottom-left box
+return teamASwapped ? "a1" : "a2"
+
+}else{
+
+// Team B right court = bottom-right box
+return teamBSwapped ? "b1" : "b2"
+
+}
+
+}
 
 
 function saveState(){
@@ -88,7 +102,6 @@ teamBSwapped
 })
 
 }
-
 
 
 function rallyWinner(team){
@@ -123,7 +136,6 @@ updateUI()
 }
 
 
-
 function scorePoint(team){
 
 if(team === "A"){
@@ -138,10 +150,9 @@ teamBSwapped = !teamBSwapped
 
 }
 
-updateServerFromScore()
+server = getRightSideServer()
 
 }
-
 
 
 function sideOut(){
@@ -150,46 +161,9 @@ servingTeam = servingTeam === "A" ? "B" : "A"
 
 serverNumber = 1
 
-if(servingTeam === "A"){
-
-server = teamASwapped ? "a1" : "a2"
-
-}else{
-
-server = teamBSwapped ? "b1" : "b2"
+server = getRightSideServer()
 
 }
-
-}
-
-
-
-function updateServerFromScore(){
-
-if(servingTeam === "A"){
-
-const even = scoreA % 2 === 0
-
-if(even){
-server = teamASwapped ? "a1" : "a2"
-}else{
-server = teamASwapped ? "a2" : "a1"
-}
-
-}else{
-
-const even = scoreB % 2 === 0
-
-if(even){
-server = teamBSwapped ? "b1" : "b2"
-}else{
-server = teamBSwapped ? "b2" : "b1"
-}
-
-}
-
-}
-
 
 
 function getPartner(player){
@@ -200,7 +174,6 @@ if(player === "b1") return "b2"
 if(player === "b2") return "b1"
 
 }
-
 
 
 function updateUI(){
@@ -224,7 +197,6 @@ document.getElementById(server).classList.add("serving")
 renderPositions()
 
 }
-
 
 
 function renderPositions(){
@@ -273,7 +245,6 @@ b2.style.bottom="15%"
 }
 
 
-
 function logEvent(event){
 
 rallyCount++
@@ -307,7 +278,6 @@ document.querySelector("#logTable tbody").prepend(row)
 }
 
 
-
 function undoAction(){
 
 if(historyStack.length === 0) return
@@ -331,7 +301,6 @@ table.removeChild(table.firstChild)
 updateUI()
 
 }
-
 
 
 function downloadLog(){
