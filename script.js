@@ -74,12 +74,12 @@ function getRightSideServer(){
 
 if(servingTeam === "A"){
 
-// Team A right court = bottom-left box
+// Team A right box = bottom left
 return teamASwapped ? "a1" : "a2"
 
 }else{
 
-// Team B right court = bottom-right box
+// Team B right box = bottom right
 return teamBSwapped ? "b1" : "b2"
 
 }
@@ -150,7 +150,7 @@ teamBSwapped = !teamBSwapped
 
 }
 
-server = getRightSideServer()
+// SERVER DOES NOT CHANGE
 
 }
 
