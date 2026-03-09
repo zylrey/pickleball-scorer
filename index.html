@@ -1,48 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>Pickleball Scorer</title>
-<link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Pickleball Scorer</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<button class="settings-button" onclick="openSettings()">⚙</button>
 
-<div id="settingsModal" class="settings-modal">
+<!-- SETUP SCREEN -->
 
-<div class="settings-card">
+<div id="setupScreen" class="setup-screen">
 
-<h2>Game Settings</h2>
+<h1>Match Setup</h1>
 
-<label>Team A Name</label>
-<input id="teamAName" placeholder="Team A">
+<h2>Players</h2>
 
-<label>Player 1</label>
+<label>Player 1 (Team A)</label>
 <input id="nameA1" placeholder="Player 1">
 
-<label>Player 2</label>
+<label>Player 2 (Team A)</label>
 <input id="nameA2" placeholder="Player 2">
 
-<label>Team B Name</label>
-<input id="teamBName" placeholder="Team B">
-
-<label>Player 3</label>
+<label>Player 3 (Team B)</label>
 <input id="nameB1" placeholder="Player 3">
 
-<label>Player 4</label>
+<label>Player 4 (Team B)</label>
 <input id="nameB2" placeholder="Player 4">
 
-<div class="settings-actions">
-<button onclick="startGame()">Start Game</button>
-<button onclick="closeSettings()">Close</button>
-</div>
+
+<h2>Game and Match</h2>
+
+<label>Best Of</label>
+<select id="bestOf">
+<option value="1">1</option>
+<option value="3" selected>3</option>
+<option value="5">5</option>
+</select>
+
+<label>Games To</label>
+<select id="gameTo">
+<option value="11" selected>11</option>
+<option value="15">15</option>
+<option value="21">21</option>
+</select>
+
+<label>Winner Rule</label>
+<select id="winRule">
+<option value="2">Win by 2</option>
+<option value="1">No Win by 2</option>
+</select>
+
+<label>Timeouts per Game</label>
+<select id="timeouts">
+<option value="1">1</option>
+<option value="2" selected>2</option>
+<option value="3">3</option>
+</select>
+
+<label>Starting Server Side</label>
+<select id="startSide">
+<option value="right">Right</option>
+<option value="left">Left</option>
+</select>
+
+<button class="start-btn" onclick="startGame()">Start Match</button>
 
 </div>
 
-</div>
+
+<!-- GAME SCREEN -->
+
+<div id="gameScreen" style="display:none">
 
 
 <div class="court">
@@ -88,12 +123,13 @@ Undo
 <h3>Game Log</h3>
 
 <table id="logTable">
+
 <thead>
 <tr>
 <th>#</th>
 <th>Event</th>
-<th>Score Call</th>
-<th>Server</th>
+<th>Score</th>
+<th>Serving</th>
 </tr>
 </thead>
 
@@ -102,6 +138,8 @@ Undo
 </table>
 
 <button class="download-btn" onclick="downloadLog()">Download Game Log</button>
+
+</div>
 
 </div>
 
