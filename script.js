@@ -8,8 +8,8 @@ let server = "a2"
 let teamASwapped = false
 let teamBSwapped = false
 
-let historyStack = []
 let rallyCount = 0
+let historyStack = []
 
 let players = {
 a1:"P1",
@@ -22,17 +22,23 @@ b2:"P4"
 
 function startGame(){
 
-players.a1 = document.getElementById("nameA1").value || "P1"
-players.a2 = document.getElementById("nameA2").value || "P2"
-players.b1 = document.getElementById("nameB1").value || "P3"
-players.b2 = document.getElementById("nameB2").value || "P4"
+players.a1 = document.getElementById("nameA1")?.value || "P1"
+players.a2 = document.getElementById("nameA2")?.value || "P2"
+players.b1 = document.getElementById("nameB1")?.value || "P3"
+players.b2 = document.getElementById("nameB2")?.value || "P4"
 
-document.getElementById("a1").innerText = players.a1
-document.getElementById("a2").innerText = players.a2
-document.getElementById("b1").innerText = players.b1
-document.getElementById("b2").innerText = players.b2
+const a1 = document.getElementById("a1")
+const a2 = document.getElementById("a2")
+const b1 = document.getElementById("b1")
+const b2 = document.getElementById("b2")
+
+if(a1) a1.innerText = players.a1
+if(a2) a2.innerText = players.a2
+if(b1) b1.innerText = players.b1
+if(b2) b2.innerText = players.b2
 
 resetGame()
+
 logEvent("Game Start")
 
 }
@@ -54,7 +60,8 @@ teamBSwapped = false
 historyStack = []
 rallyCount = 0
 
-document.querySelector("#logTable tbody").innerHTML = ""
+const log = document.querySelector("#logTable tbody")
+if(log) log.innerHTML = ""
 
 updateUI()
 
@@ -65,7 +72,6 @@ updateUI()
 function saveState(){
 
 historyStack.push({
-
 scoreA,
 scoreB,
 servingTeam,
@@ -73,7 +79,6 @@ serverNumber,
 server,
 teamASwapped,
 teamBSwapped
-
 })
 
 }
@@ -88,7 +93,6 @@ if(team === servingTeam){
 
 scorePoint(team)
 logEvent("Point")
-
 updateUI()
 return
 
@@ -100,7 +104,6 @@ serverNumber = 2
 server = getPartner(server)
 
 logEvent("Server Change")
-
 updateUI()
 return
 
@@ -151,12 +154,12 @@ server = teamBSwapped ? "b1" : "b2"
 
 
 
-function getPartner(p){
+function getPartner(player){
 
-if(p==="a1") return "a2"
-if(p==="a2") return "a1"
-if(p==="b1") return "b2"
-if(p==="b2") return "b1"
+if(player === "a1") return "a2"
+if(player === "a2") return "a1"
+if(player === "b1") return "b2"
+if(player === "b2") return "b1"
 
 }
 
@@ -166,19 +169,21 @@ function updateUI(){
 
 let callScore
 
-if(servingTeam==="A"){
-callScore = scoreA+"-"+scoreB+"-"+serverNumber
+if(servingTeam === "A"){
+callScore = scoreA + "-" + scoreB + "-" + serverNumber
 }else{
-callScore = scoreB+"-"+scoreA+"-"+serverNumber
+callScore = scoreB + "-" + scoreA + "-" + serverNumber
 }
 
-document.getElementById("serverName").innerText = callScore
+const serverLabel = document.getElementById("serverName")
+if(serverLabel) serverLabel.innerText = callScore
 
 document.querySelectorAll(".player").forEach(p=>{
 p.classList.remove("serving")
 })
 
-document.getElementById(server).classList.add("serving")
+const s = document.getElementById(server)
+if(s) s.classList.add("serving")
 
 renderPositions()
 
@@ -192,6 +197,8 @@ const a1 = document.getElementById("a1")
 const a2 = document.getElementById("a2")
 const b1 = document.getElementById("b1")
 const b2 = document.getElementById("b2")
+
+if(!a1 || !a2 || !b1 || !b2) return
 
 if(teamASwapped){
 
@@ -235,10 +242,10 @@ rallyCount++
 
 let callScore
 
-if(servingTeam==="A"){
-callScore = scoreA+"-"+scoreB+"-"+serverNumber
+if(servingTeam === "A"){
+callScore = scoreA + "-" + scoreB + "-" + serverNumber
 }else{
-callScore = scoreB+"-"+scoreA+"-"+serverNumber
+callScore = scoreB + "-" + scoreA + "-" + serverNumber
 }
 
 let colorClass=""
@@ -257,7 +264,8 @@ row.innerHTML=`
 <td>${players[server]}</td>
 `
 
-document.querySelector("#logTable tbody").prepend(row)
+const table = document.querySelector("#logTable tbody")
+if(table) table.prepend(row)
 
 }
 
@@ -277,9 +285,8 @@ server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
 
-document.querySelector("#logTable tbody").removeChild(
-document.querySelector("#logTable tbody").firstChild
-)
+const table = document.querySelector("#logTable tbody")
+if(table && table.firstChild) table.removeChild(table.firstChild)
 
 updateUI()
 
@@ -289,22 +296,15 @@ updateUI()
 
 function downloadLog(){
 
-const rows=document.querySelectorAll("#logTable tr")
+const rows = document.querySelectorAll("#logTable tr")
 
 let csv=[]
 
 rows.forEach(row=>{
-
 const cols=row.querySelectorAll("th,td")
-
 let rowData=[]
-
-cols.forEach(col=>{
-rowData.push(col.innerText)
-})
-
+cols.forEach(col=>rowData.push(col.innerText))
 csv.push(rowData.join(","))
-
 })
 
 const blob=new Blob([csv.join("\n")],{type:"text/csv"})
@@ -315,9 +315,7 @@ a.href=url
 a.download="pickleball_game_log.csv"
 
 document.body.appendChild(a)
-
 a.click()
-
 document.body.removeChild(a)
 
 }
