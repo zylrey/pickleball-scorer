@@ -84,6 +84,29 @@ object-fit:contain;
 
 /* PLAYER ZONES */
 
+.team-label{
+position:absolute;
+top:50%;
+transform:translateY(-50%) rotate(-90deg);
+
+font-weight:700;
+letter-spacing:2px;
+
+color:white;
+opacity:.85;
+
+font-size:14px;
+}
+
+.team-left{
+left:-32px;
+}
+
+.team-right{
+right:-32px;
+transform:translateY(-50%) rotate(90deg);
+}
+
 .zone{
 position:absolute;
 display:flex;
