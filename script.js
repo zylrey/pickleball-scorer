@@ -18,9 +18,6 @@ b1:"P3",
 b2:"P4"
 }
 
-let startSide = "right"
-let gamePoint = 11
-
 
 
 function startGame(){
@@ -29,12 +26,6 @@ players.a1 = document.getElementById("nameA1").value || "P1"
 players.a2 = document.getElementById("nameA2").value || "P2"
 players.b1 = document.getElementById("nameB1").value || "P3"
 players.b2 = document.getElementById("nameB2").value || "P4"
-
-startSide = document.getElementById("startSide").value
-gamePoint = parseInt(document.getElementById("gameTo").value)
-
-document.getElementById("setupScreen").style.display="none"
-document.getElementById("gameScreen").style.display="block"
 
 document.getElementById("a1").innerText = players.a1
 document.getElementById("a2").innerText = players.a2
@@ -56,8 +47,7 @@ scoreB = 0
 
 servingTeam = "A"
 serverNumber = 2
-
-server = startSide === "right" ? "a2" : "a1"
+server = "a2"
 
 teamASwapped = false
 teamBSwapped = false
@@ -126,14 +116,21 @@ updateUI()
 }
 
 
+
 function scorePoint(team){
 
 if(team === "A"){
+
 scoreA++
 teamASwapped = !teamASwapped
+server = teamASwapped ? "a1" : "a2"
+
 }else{
+
 scoreB++
 teamBSwapped = !teamBSwapped
+server = teamBSwapped ? "b1" : "b2"
+
 }
 
 }
@@ -143,52 +140,24 @@ teamBSwapped = !teamBSwapped
 function sideOut(){
 
 servingTeam = servingTeam === "A" ? "B" : "A"
-
 serverNumber = 1
 
 if(servingTeam === "A"){
-server = "a2"   // right side Team A
-}else{
-server = "b1"   // right side Team B (POV flipped)
-}
-
-}
-
-
-
-function updateServerFromScore(){
-
-if(servingTeam === "A"){
-
-const even = scoreA % 2 === 0
-
-if(even){
 server = teamASwapped ? "a1" : "a2"
-}else{
-server = teamASwapped ? "a2" : "a1"
-}
-
-}else{
-
-const even = scoreB % 2 === 0
-
-if(even){
-server = teamBSwapped ? "b2" : "b1"
 }else{
 server = teamBSwapped ? "b1" : "b2"
 }
 
 }
 
-}
 
 
-function getPartner(player){
+function getPartner(p){
 
-if(player === "a1") return "a2"
-if(player === "a2") return "a1"
-if(player === "b1") return "b2"
-if(player === "b2") return "b1"
+if(p==="a1") return "a2"
+if(p==="a2") return "a1"
+if(p==="b1") return "b2"
+if(p==="b2") return "b1"
 
 }
 
@@ -198,10 +167,10 @@ function updateUI(){
 
 let callScore
 
-if(servingTeam === "A"){
-callScore = scoreA + "-" + scoreB + "-" + serverNumber
+if(servingTeam==="A"){
+callScore = scoreA+"-"+scoreB+"-"+serverNumber
 }else{
-callScore = scoreB + "-" + scoreA + "-" + serverNumber
+callScore = scoreB+"-"+scoreA+"-"+serverNumber
 }
 
 document.getElementById("serverName").innerText = callScore
@@ -229,17 +198,15 @@ if(teamASwapped){
 
 a1.style.top="auto"
 a1.style.bottom="15%"
-
 a2.style.bottom="auto"
 a2.style.top="15%"
 
 }else{
 
-a1.style.bottom="auto"
 a1.style.top="15%"
-
-a2.style.top="auto"
+a1.style.bottom="auto"
 a2.style.bottom="15%"
+a2.style.top="auto"
 
 }
 
@@ -247,17 +214,15 @@ if(teamBSwapped){
 
 b1.style.top="auto"
 b1.style.bottom="15%"
-
 b2.style.bottom="auto"
 b2.style.top="15%"
 
 }else{
 
-b1.style.bottom="auto"
 b1.style.top="15%"
-
-b2.style.top="auto"
+b1.style.bottom="auto"
 b2.style.bottom="15%"
+b2.style.top="auto"
 
 }
 
@@ -271,10 +236,10 @@ rallyCount++
 
 let callScore
 
-if(servingTeam === "A"){
-callScore = scoreA + "-" + scoreB + "-" + serverNumber
+if(servingTeam==="A"){
+callScore = scoreA+"-"+scoreB+"-"+serverNumber
 }else{
-callScore = scoreB + "-" + scoreA + "-" + serverNumber
+callScore = scoreB+"-"+scoreA+"-"+serverNumber
 }
 
 let colorClass=""
@@ -313,11 +278,9 @@ server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
 
-const table = document.querySelector("#logTable tbody")
-
-if(table.firstChild){
-table.removeChild(table.firstChild)
-}
+document.querySelector("#logTable tbody").removeChild(
+document.querySelector("#logTable tbody").firstChild
+)
 
 updateUI()
 
@@ -327,7 +290,7 @@ updateUI()
 
 function downloadLog(){
 
-const rows = document.querySelectorAll("#logTable tr")
+const rows=document.querySelectorAll("#logTable tr")
 
 let csv=[]
 
@@ -349,7 +312,6 @@ const blob=new Blob([csv.join("\n")],{type:"text/csv"})
 const url=window.URL.createObjectURL(blob)
 
 const a=document.createElement("a")
-
 a.href=url
 a.download="pickleball_game_log.csv"
 
