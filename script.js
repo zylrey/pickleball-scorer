@@ -150,7 +150,15 @@ servingTeam = servingTeam === "A" ? "B" : "A"
 
 serverNumber = 1
 
-updateServerFromScore()
+if(servingTeam === "A"){
+
+server = teamASwapped ? "a1" : "a2"
+
+}else{
+
+server = teamBSwapped ? "b1" : "b2"
+
+}
 
 }
 
