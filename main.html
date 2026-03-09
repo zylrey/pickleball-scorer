@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pickleball Scorer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<button class="settings-button" onclick="openSettings()">⚙</button>
+
+<div id="settingsModal" class="settings-modal">
+
+<div class="settings-card">
+
+<h2>Game Settings</h2>
+
+<label>Team A Name</label>
+<input id="teamAName" placeholder="Team A">
+
+<label>Player 1</label>
+<input id="nameA1" placeholder="Player 1">
+
+<label>Player 2</label>
+<input id="nameA2" placeholder="Player 2">
+
+<label>Team B Name</label>
+<input id="teamBName" placeholder="Team B">
+
+<label>Player 3</label>
+<input id="nameB1" placeholder="Player 3">
+
+<label>Player 4</label>
+<input id="nameB2" placeholder="Player 4">
+
+<div class="settings-actions">
+<button onclick="startGame()">Start Game</button>
+<button onclick="closeSettings()">Close</button>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="court">
+
+<img src="court.png" class="court-img">
+
+<div id="a1" class="zone player a1"></div>
+<div id="a2" class="zone player a2"></div>
+
+<div id="b1" class="zone player b1"></div>
+<div id="b2" class="zone player b2"></div>
+
+</div>
+
+
+<div class="scoreboard">
+
+<div class="scorecall">
+Server: <span id="serverName"></span>
+</div>
+
+<div class="controls">
+
+<button class="btn teamA" onclick="rallyWinner('A')">
+Team A Won Rally
+</button>
+
+<button class="btn teamB" onclick="rallyWinner('B')">
+Team B Won Rally
+</button>
+
+<button class="btn undo" onclick="undoAction()">
+Undo
+</button>
+
+</div>
+
+</div>
+
+
+<div class="log-section">
+
+<h3>Game Log</h3>
+
+<table id="logTable">
+<thead>
+<tr>
+<th>#</th>
+<th>Event</th>
+<th>Score Call</th>
+<th>Server</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+<button class="download-btn" onclick="downloadLog()">Download Game Log</button>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
