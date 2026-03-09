@@ -182,3 +182,23 @@ padding:16px;
 }
 
 }
+
+.log-point{
+color:#22c55e;
+font-weight:bold;
+}
+
+.log-change{
+color:#f59e0b;
+font-weight:bold;
+}
+
+.log-sideout{
+color:#ef4444;
+font-weight:bold;
+}
+
+.log-start{
+color:#94a3b8;
+font-weight:bold;
+}
