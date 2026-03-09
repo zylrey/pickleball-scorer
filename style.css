@@ -202,3 +202,13 @@ font-weight:bold;
 color:#94a3b8;
 font-weight:bold;
 }
+
+.app-footer{
+margin-top:40px;
+padding:12px;
+font-size:14px;
+color:#ffffffcc;
+text-align:center;
+width:100%;
+max-width:600px;
+}
