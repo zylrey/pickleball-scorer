@@ -18,6 +18,7 @@ let rallyCount = 0
 let startSide = "right"
 let gamePoint = 11
 
+
 function startGame(){
 
 players.a1 = document.getElementById("nameA1").value || "P1"
@@ -42,6 +43,7 @@ logEvent("Game Start")
 
 }
 
+
 function resetGame(){
 
 scoreA = 0
@@ -61,6 +63,7 @@ updateUI()
 
 }
 
+
 function saveState(){
 
 historyStack.push({
@@ -75,6 +78,7 @@ server
 
 }
 
+
 function rallyWinner(team){
 
 saveState()
@@ -86,14 +90,27 @@ logEvent("Point")
 
 }else{
 
-loseServe()
+if(serverNumber === 1){
+
+serverNumber = 2
+server = getPartner(server)
+
+logEvent("Server Change")
+
+}else{
+
+sideOut()
+
 logEvent("Side Out")
+
+}
 
 }
 
 updateUI()
 
 }
+
 
 function scorePoint(team){
 
@@ -102,29 +119,16 @@ else scoreB++
 
 }
 
-function loseServe(){
-
-if(serverNumber === 1){
-
-serverNumber = 2
-server = getPartner(server)
-
-}else{
-
-sideOut()
-
-}
-
-}
 
 function sideOut(){
 
 servingTeam = servingTeam==="A"?"B":"A"
 serverNumber = 1
 
-server = servingTeam==="A"?"a1":"b1"
+server = servingTeam==="A" ? "a1" : "b1"
 
 }
+
 
 function getPartner(p){
 
@@ -134,6 +138,7 @@ if(p==="b1") return "b2"
 if(p==="b2") return "b1"
 
 }
+
 
 function updateUI(){
 
@@ -155,6 +160,7 @@ document.getElementById(server).classList.add("serving")
 
 }
 
+
 function logEvent(event){
 
 rallyCount++
@@ -167,11 +173,18 @@ callScore = scoreA+"-"+scoreB+"-"+serverNumber
 callScore = scoreB+"-"+scoreA+"-"+serverNumber
 }
 
+let colorClass=""
+
+if(event==="Point") colorClass="log-point"
+if(event==="Server Change") colorClass="log-change"
+if(event==="Side Out") colorClass="log-sideout"
+if(event==="Game Start") colorClass="log-start"
+
 const row=document.createElement("tr")
 
 row.innerHTML=`
 <td>${rallyCount}</td>
-<td>${event}</td>
+<td class="${colorClass}">${event}</td>
 <td>${callScore}</td>
 <td>${players[server]}</td>
 `
@@ -179,6 +192,7 @@ row.innerHTML=`
 document.querySelector("#logTable tbody").prepend(row)
 
 }
+
 
 function undoAction(){
 
@@ -199,6 +213,7 @@ document.querySelector("#logTable tbody").firstChild
 updateUI()
 
 }
+
 
 function downloadLog(){
 
