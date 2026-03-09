@@ -29,7 +29,8 @@ players.a2 = document.getElementById("nameA2").value || "P2"
 players.b1 = document.getElementById("nameB1").value || "P3"
 players.b2 = document.getElementById("nameB2").value || "P4"
 
-startSide = document.getElementById("startSide").value
+servingTeam = document.getElementById("startTeam").value
+
 gamePoint = parseInt(document.getElementById("gameTo").value)
 
 document.getElementById("setupScreen").style.display="none"
@@ -150,7 +151,7 @@ teamBSwapped = !teamBSwapped
 
 }
 
-// server stays the same
+checkGameWin()
 
 }
 
@@ -336,5 +337,32 @@ document.body.appendChild(a)
 a.click()
 
 document.body.removeChild(a)
+
+}
+
+function checkGameWin(){
+
+if(scoreA >= gamePoint && scoreA - scoreB >= 2){
+
+alert("Team A wins the game")
+disableGame()
+
+}
+
+if(scoreB >= gamePoint && scoreB - scoreA >= 2){
+
+alert("Team B wins the game")
+disableGame()
+
+}
+
+}
+
+function disableGame(){
+
+document.querySelectorAll(".btn").forEach(btn=>{
+btn.disabled = true
+btn.style.opacity = ".5"
+})
 
 }
