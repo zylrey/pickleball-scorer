@@ -8,6 +8,9 @@ let server = "a2"
 let teamASwapped = false
 let teamBSwapped = false
 
+let historyStack = []
+let rallyCount = 0
+
 let players = {
 a1:"P1",
 a2:"P2",
@@ -15,11 +18,9 @@ b1:"P3",
 b2:"P4"
 }
 
-let historyStack = []
-let rallyCount = 0
-
 let startSide = "right"
 let gamePoint = 11
+
 
 
 function startGame(){
@@ -47,6 +48,7 @@ logEvent("Game Start")
 }
 
 
+
 function resetGame(){
 
 scoreA = 0
@@ -60,14 +62,15 @@ server = startSide === "right" ? "a2" : "a1"
 teamASwapped = false
 teamBSwapped = false
 
-historyStack=[]
-rallyCount=0
+historyStack = []
+rallyCount = 0
 
-document.querySelector("#logTable tbody").innerHTML=""
+document.querySelector("#logTable tbody").innerHTML = ""
 
 updateUI()
 
 }
+
 
 
 function saveState(){
@@ -85,6 +88,7 @@ teamBSwapped
 })
 
 }
+
 
 
 function rallyWinner(team){
@@ -108,7 +112,6 @@ logEvent("Server Change")
 }else{
 
 sideOut()
-
 logEvent("Side Out")
 
 }
@@ -120,9 +123,10 @@ updateUI()
 }
 
 
+
 function scorePoint(team){
 
-if(team==="A"){
+if(team === "A"){
 
 scoreA++
 teamASwapped = !teamASwapped
@@ -134,42 +138,71 @@ teamBSwapped = !teamBSwapped
 
 }
 
+updateServerFromScore()
+
 }
+
 
 
 function sideOut(){
 
-servingTeam = servingTeam==="A" ? "B" : "A"
+servingTeam = servingTeam === "A" ? "B" : "A"
 
 serverNumber = 1
 
-if(servingTeam==="A"){
+updateServerFromScore()
+
+}
+
+
+
+function updateServerFromScore(){
+
+if(servingTeam === "A"){
+
+const even = scoreA % 2 === 0
+
+if(even){
+server = teamASwapped ? "a1" : "a2"
+}else{
 server = teamASwapped ? "a2" : "a1"
+}
+
+}else{
+
+const even = scoreB % 2 === 0
+
+if(even){
+server = teamBSwapped ? "b1" : "b2"
 }else{
 server = teamBSwapped ? "b2" : "b1"
 }
 
 }
 
+}
 
-function getPartner(p){
 
-if(p==="a1") return "a2"
-if(p==="a2") return "a1"
-if(p==="b1") return "b2"
-if(p==="b2") return "b1"
+
+function getPartner(player){
+
+if(player === "a1") return "a2"
+if(player === "a2") return "a1"
+if(player === "b1") return "b2"
+if(player === "b2") return "b1"
 
 }
+
 
 
 function updateUI(){
 
 let callScore
 
-if(servingTeam==="A"){
-callScore = scoreA+"-"+scoreB+"-"+serverNumber
+if(servingTeam === "A"){
+callScore = scoreA + "-" + scoreB + "-" + serverNumber
 }else{
-callScore = scoreB+"-"+scoreA+"-"+serverNumber
+callScore = scoreB + "-" + scoreA + "-" + serverNumber
 }
 
 document.getElementById("serverName").innerText = callScore
@@ -183,6 +216,7 @@ document.getElementById(server).classList.add("serving")
 renderPositions()
 
 }
+
 
 
 function renderPositions(){
@@ -231,16 +265,17 @@ b2.style.bottom="15%"
 }
 
 
+
 function logEvent(event){
 
 rallyCount++
 
 let callScore
 
-if(servingTeam==="A"){
-callScore = scoreA+"-"+scoreB+"-"+serverNumber
+if(servingTeam === "A"){
+callScore = scoreA + "-" + scoreB + "-" + serverNumber
 }else{
-callScore = scoreB+"-"+scoreA+"-"+serverNumber
+callScore = scoreB + "-" + scoreA + "-" + serverNumber
 }
 
 let colorClass=""
@@ -264,9 +299,10 @@ document.querySelector("#logTable tbody").prepend(row)
 }
 
 
+
 function undoAction(){
 
-if(historyStack.length===0) return
+if(historyStack.length === 0) return
 
 const prev = historyStack.pop()
 
@@ -278,18 +314,21 @@ server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
 
-document.querySelector("#logTable tbody").removeChild(
-document.querySelector("#logTable tbody").firstChild
-)
+const table = document.querySelector("#logTable tbody")
+
+if(table.firstChild){
+table.removeChild(table.firstChild)
+}
 
 updateUI()
 
 }
 
 
+
 function downloadLog(){
 
-const rows=document.querySelectorAll("#logTable tr")
+const rows = document.querySelectorAll("#logTable tr")
 
 let csv=[]
 
@@ -311,11 +350,14 @@ const blob=new Blob([csv.join("\n")],{type:"text/csv"})
 const url=window.URL.createObjectURL(blob)
 
 const a=document.createElement("a")
+
 a.href=url
 a.download="pickleball_game_log.csv"
 
 document.body.appendChild(a)
+
 a.click()
+
 document.body.removeChild(a)
 
 }
