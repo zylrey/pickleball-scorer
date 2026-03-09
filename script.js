@@ -127,18 +127,12 @@ updateUI()
 function scorePoint(team){
 
 if(team === "A"){
-
 scoreA++
 teamASwapped = !teamASwapped
-
 }else{
-
 scoreB++
 teamBSwapped = !teamBSwapped
-
 }
-
-updateServerFromScore()
 
 }
 
@@ -150,7 +144,11 @@ servingTeam = servingTeam === "A" ? "B" : "A"
 
 serverNumber = 1
 
-updateServerFromScore()
+if(servingTeam === "A"){
+server = "a2"   // right side player of Team A
+}else{
+server = "b2"   // right side player of Team B
+}
 
 }
 
