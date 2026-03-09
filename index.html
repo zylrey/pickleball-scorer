@@ -1,94 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>Pickleball Scorer</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
+<div class="setup">
+<h2>Game Setup</h2>
 
-<!-- SETUP SCREEN -->
-
-<div id="setupScreen" class="setup-screen">
-
-<h1>Match Setup</h1>
-
-<h2>Players</h2>
-
-<label>Player 1 (Team A)</label>
 <input id="nameA1" placeholder="Player 1">
-
-<label>Player 2 (Team A)</label>
 <input id="nameA2" placeholder="Player 2">
-
-<label>Player 3 (Team B)</label>
 <input id="nameB1" placeholder="Player 3">
-
-<label>Player 4 (Team B)</label>
 <input id="nameB2" placeholder="Player 4">
 
-
-<h2>Game and Match</h2>
-
-<label>Best Of</label>
-<select id="bestOf">
-<option value="1">1</option>
-<option value="3" selected>3</option>
-<option value="5">5</option>
-</select>
-
-<label>Games To</label>
-<select id="gameTo">
-<option value="11" selected>11</option>
-<option value="15">15</option>
-<option value="21">21</option>
-</select>
-
-<label>Winner Rule</label>
-<select id="winRule">
-<option value="2">Win by 2</option>
-<option value="1">No Win by 2</option>
-</select>
-
-<label>Timeouts per Game</label>
-<select id="timeouts">
-<option value="1">1</option>
-<option value="2" selected>2</option>
-<option value="3">3</option>
-</select>
-
-<label>Starting Server Side</label>
-<select id="startSide">
-<option value="right">Right</option>
-<option value="left">Left</option>
-</select>
-
-<button class="start-btn" onclick="startGame()">Start Match</button>
-
+<button onclick="startGame()">Start Game</button>
 </div>
-
-
-<!-- GAME SCREEN -->
-
-<div id="gameScreen" style="display:none">
 
 
 <div class="court">
 
 <img src="court.png" class="court-img">
 
-<div id="a1" class="zone player a1"></div>
-<div id="a2" class="zone player a2"></div>
+<div id="a1" class="zone player a1">P1</div>
+<div id="a2" class="zone player a2">P2</div>
 
-<div id="b1" class="zone player b1"></div>
-<div id="b2" class="zone player b2"></div>
+<div id="b1" class="zone player b1">P3</div>
+<div id="b2" class="zone player b2">P4</div>
 
 </div>
 
@@ -96,23 +36,13 @@
 <div class="scoreboard">
 
 <div class="scorecall">
-Server: <span id="serverName"></span>
+Server: <span id="serverName">0-0-2</span>
 </div>
 
 <div class="controls">
-
-<button class="btn teamA" onclick="rallyWinner('A')">
-Team A Won Rally
-</button>
-
-<button class="btn teamB" onclick="rallyWinner('B')">
-Team B Won Rally
-</button>
-
-<button class="btn undo" onclick="undoAction()">
-Undo
-</button>
-
+<button class="btn teamA" onclick="rallyWinner('A')">Team A Won Rally</button>
+<button class="btn teamB" onclick="rallyWinner('B')">Team B Won Rally</button>
+<button class="btn undo" onclick="undoAction()">Undo</button>
 </div>
 
 </div>
@@ -138,8 +68,6 @@ Undo
 </table>
 
 <button class="download-btn" onclick="downloadLog()">Download Game Log</button>
-
-</div>
 
 </div>
 
