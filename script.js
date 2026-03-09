@@ -341,19 +341,37 @@ document.body.removeChild(a)
 
 function checkGameWin(){
 
+let winner = null
+
 if(scoreA >= gamePoint && scoreA - scoreB >= 2){
-
-alert("Team A wins the game")
-disableGame()
-
+winner = "A"
 }
 
 if(scoreB >= gamePoint && scoreB - scoreA >= 2){
+winner = "B"
+}
 
-alert("Team B wins the game")
+if(!winner) return
+
+let mvp = players[server]
+
+document.getElementById("winnerTitle").innerText =
+"Team " + winner + " Wins!"
+
+document.getElementById("finalScore").innerText =
+scoreA + " - " + scoreB
+
+document.getElementById("mvpName").innerText = mvp
+
+document.getElementById("winModal").style.display = "flex"
+
 disableGame()
 
 }
+
+function closeWinModal(){
+
+document.getElementById("winModal").style.display="none"
 
 }
 
