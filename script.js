@@ -580,6 +580,12 @@ disableGame()
 
 }
 
+function closeWinModal(){
+
+document.getElementById("winModal").style.display = "none"
+
+}
+
 
 /* ---------------- DISABLE ---------------- */
 
