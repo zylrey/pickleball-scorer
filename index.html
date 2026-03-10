@@ -32,9 +32,9 @@ Built by <strong>Zyl Arpon</strong>
 <label>Team Names (optional)</label>
 
 <div class="team-input-row">
-<input id="teamAName" placeholder="Team A Name" oninput="updateTeamDropdown()">
-<input id="teamBName" placeholder="Team B Name" oninput="updateTeamDropdown()">
-<button type="button" onclick="toggleTeamNames()" id="teamToggleBtn">Add</button>
+<input id="teamAName" placeholder="Team A Name">
+<input id="teamBName" placeholder="Team B Name">
+<button type="button" id="teamToggleBtn">Add</button>
 </div>
 
 <label>Player 1 (Team A)</label>
@@ -85,7 +85,7 @@ Built by <strong>Zyl Arpon</strong>
 <option value="B" id="startTeamB">TEAM B</option>
 </select>
 
-<button class="start-btn" onclick="startGame()">Start Match</button>
+<button class="start-btn">Start Match</button>
 
 </div>
 
@@ -137,27 +137,27 @@ Score: <span id="serverName"></span>
 
 <div class="controls">
 
-<button id="btnTeamA" class="btn teamA" onclick="rallyWinner('A')">
+<button id="btnTeamA" class="btn teamA">
 Team A Won Rally
 </button>
 
-<button id="btnTeamB" class="btn teamB" onclick="rallyWinner('B')">
+<button id="btnTeamB" class="btn teamB">
 Team B Won Rally
 </button>
 
-<button class="btn timeoutA-btn" onclick="callTimeout('A')">
+<button class="btn timeoutA-btn">
 Team A Timeout
 </button>
 
-<button class="btn timeoutB-btn" onclick="callTimeout('B')">
+<button class="btn timeoutB-btn">
 Team B Timeout
 </button>
 
-<button class="btn undo" onclick="openUndoModal()">
+<button class="btn undo">
 Undo
 </button>
 
-<button class="btn reset" onclick="resetMatch()">
+<button class="btn reset">
 Reset Match
 </button>
 
@@ -190,7 +190,7 @@ Reset Match
 
 </div>
 
-<button class="download-btn" onclick="downloadLog()">Download Game Log</button>
+<button class="download-btn">Download Game Log</button>
 
 </div>
 
@@ -211,11 +211,11 @@ Reset Match
 <span id="mvpName"></span>
 </div>
 
-<button onclick="downloadLog()" class="download-win">
+<button class="download-win">
 Download Match Report
 </button>
 
-<button onclick="closeWinModal()" class="close-win">
+<button class="close-win">
 Close
 </button>
 
@@ -233,9 +233,9 @@ Close
 
 <div class="reset-actions">
 
-<button class="reset-cancel" onclick="closeResetModal()">Cancel</button>
+<button class="reset-cancel">Cancel</button>
 
-<button class="reset-confirm" onclick="confirmReset()">Reset</button>
+<button class="reset-confirm">Reset</button>
 
 </div>
 
@@ -256,9 +256,9 @@ style="width:100%;padding:10px;margin-bottom:16px;border:1px solid #ccc;border-r
 
 <div class="reset-actions">
 
-<button class="reset-cancel" onclick="closeUndoModal()">Cancel</button>
+<button class="reset-cancel">Cancel</button>
 
-<button class="reset-confirm" onclick="confirmUndo()">Authorize</button>
+<button class="reset-confirm">Authorize</button>
 
 </div>
 
@@ -270,7 +270,7 @@ style="width:100%;padding:10px;margin-bottom:16px;border:1px solid #ccc;border-r
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
-<script src="script.js"></script>
+<script type="module" src="js/main.js"></script>
 
 </body>
 </html>

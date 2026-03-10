@@ -308,26 +308,53 @@ Mobile layout converts the control panel into a **touch-friendly grid interface*
 ```
 HTML5
 CSS3
-Vanilla JavaScript
+Vanilla JavaScript (ES Modules)
 jsPDF
 jsPDF-AutoTable
 ```
 
-No frameworks or backend required.
+No frameworks, bundlers, or backend required.
 
 ---
 
 # 📁 Project Structure
 
 ```
-pickleball-scorer
+pickleball-scorer/
 │
-├── index.html
-├── style.css
-├── script.js
-├── court.png
+├── index.html              Entry point (no inline handlers)
+├── style.css               Responsive layout
+├── court.png               Court background image
+├── logo.png                App icon
 │
-├── docs
+├── js/
+│   ├── main.js             App entry point, event listener wiring
+│   ├── constants.js        All magic values (team IDs, events, defaults)
+│   │
+│   ├── state/
+│   │   └── game-state.js   Encapsulated state singleton + helpers
+│   │
+│   ├── dom/
+│   │   ├── elements.js     Cached DOM references (queried once)
+│   │   ├── renderer.js     All DOM write operations
+│   │   └── modals.js       Modal show/hide logic
+│   │
+│   ├── game/
+│   │   ├── serving.js      Server selection, partner lookup (pure)
+│   │   ├── scoring.js      Score application, win detection (pure)
+│   │   ├── rally.js        Rally orchestration (coordinator)
+│   │   └── timeout.js      Timeout management
+│   │
+│   ├── features/
+│   │   ├── undo.js         Undo system with admin authorization
+│   │   ├── persistence.js  localStorage save/load/clear
+│   │   ├── setup.js        Setup form reading, team name toggle
+│   │   └── pdf-export.js   PDF match report generation
+│   │
+│   └── log/
+│       └── event-log.js    Log entry creation and management (pure)
+│
+├── docs/
 │   ├── setup-screen.png
 │   ├── court-view.png
 │   ├── game-log.png
@@ -335,6 +362,14 @@ pickleball-scorer
 │
 └── README.md
 ```
+
+### Architecture Highlights
+
+* **ES Modules** — 15 focused modules with clear single responsibilities
+* **Encapsulated state** — singleton `gameState` object replaces global variables
+* **DOM isolation** — game logic modules (`serving`, `scoring`, `event-log`) are pure with zero DOM access
+* **No inline handlers** — all event binding via `addEventListener` in `main.js`
+* **Constants extraction** — all magic strings and numbers centralized in `constants.js`
 
 ---
 
@@ -348,13 +383,15 @@ git clone https://github.com/your-username/pickleball-scorer.git
 
 Open the project directory.
 
-Run using any local server or simply open:
+Serve via a local HTTP server (ES modules require HTTP, not `file://`):
 
 ```
-index.html
+npx serve .
 ```
 
-in your browser.
+Or use **VS Code Live Server**, **Python** (`python -m http.server`), or any static file server.
+
+Then open `http://localhost:3000` (or the port shown) in your browser.
 
 ---
 
