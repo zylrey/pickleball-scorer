@@ -429,3 +429,17 @@ background:white;
 .court *{
 z-index:1;
 }
+
+.rally-counter{
+position:absolute;
+top:-8px;
+left:50%;
+transform:translateX(-50%);
+background:#1f2937;
+color:white;
+padding:4px 10px;
+border-radius:6px;
+font-size:13px;
+font-weight:bold;
+letter-spacing:.5px;
+}

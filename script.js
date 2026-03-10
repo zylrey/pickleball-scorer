@@ -113,6 +113,8 @@ timeoutLimit = state.timeoutLimit || 2
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
 
+document.getElementById("rallyNum").innerText = rallyCount
+
 document.getElementById("a1").innerText = players.a1
 document.getElementById("a2").innerText = players.a2
 document.getElementById("b1").innerText = players.b1
@@ -231,6 +233,8 @@ scoreB = 0
 
 timeoutA = 0
 timeoutB = 0
+
+document.getElementById("rallyNum").innerText = 0
 
 updateTimeoutUI()
 
@@ -436,6 +440,8 @@ b2.style.bottom="15%"
 /* ---------------- LOG ---------------- */
 
 function logEvent(event){
+
+document.getElementById("rallyNum").innerText = rallyCount
 
 rallyCount++
 
