@@ -1,9 +1,9 @@
 # 🏓 Pickleball Scorer
 
-![GitHub repo size](https://img.shields.io/github/repo-size/your-username/pickleball-scorer)
-![GitHub stars](https://img.shields.io/github/stars/your-username/pickleball-scorer)
-![GitHub forks](https://img.shields.io/github/forks/your-username/pickleball-scorer)
-![License](https://img.shields.io/github/license/your-username/pickleball-scorer)
+![GitHub repo size](https://img.shields.io/github/repo-size/zylrey/pickleball-scorer)
+![GitHub stars](https://img.shields.io/github/stars/zylrey/pickleball-scorer)
+![GitHub forks](https://img.shields.io/github/forks/zylrey/pickleball-scorer)
+![License](https://img.shields.io/github/license/zylrey/pickleball-scorer)
 ![Built With](https://img.shields.io/badge/Built%20With-Vanilla%20JavaScript-green)
 
 A lightweight **web-based Pickleball scoring system** designed for referees, casual matches, and small tournaments.
