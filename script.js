@@ -5,6 +5,8 @@ let servingTeam = "A"
 let serverNumber = 2
 let server = "a2"
 
+let gameLog = []
+
 let teamASwapped = false
 let teamBSwapped = false
 
@@ -34,7 +36,8 @@ server,
 teamASwapped,
 teamBSwapped,
 rallyCount,
-players
+players,
+gameLog
 
 }
 
@@ -73,6 +76,9 @@ document.getElementById("b2").innerText = players.b2
 
 updateUI()
 
+gameLog = state.gameLog || []
+
+renderLog()
 }
 
 
@@ -127,11 +133,13 @@ server = getRightSideServer()
 
 historyStack = []
 rallyCount = 0
+gameLog = []
 
 document.querySelector("#logTable tbody").innerHTML = ""
 
 updateUI()
 saveMatch()
+
 }
 
 
@@ -331,16 +339,18 @@ if(event==="Side Out") colorClass="log-sideout"
 if(event==="Game Start") colorClass="log-start"
 if(event==="Win") colorClass="log-win"
 
-const row=document.createElement("tr")
+const logEntry = {
+id:rallyCount,
+event:event,
+score:callScore,
+server:players[server],
+class:colorClass
+}
 
-row.innerHTML=`
-<td>${rallyCount}</td>
-<td class="${colorClass}">${event}</td>
-<td>${callScore}</td>
-<td>${players[server]}</td>
-`
+gameLog.unshift(logEntry)
 
-document.querySelector("#logTable tbody").prepend(row)
+renderLog()
+saveMatch()
 
 }
 
@@ -359,14 +369,35 @@ server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
 
-const table = document.querySelector("#logTable tbody")
+gameLog.shift()
 
-if(table.firstChild){
-table.removeChild(table.firstChild)
-}
-
+renderLog()
 updateUI()
 saveMatch()
+
+}
+
+function renderLog(){
+
+const tbody = document.querySelector("#logTable tbody")
+
+tbody.innerHTML=""
+
+gameLog.forEach(log=>{
+
+const row=document.createElement("tr")
+
+row.innerHTML=`
+<td>${log.id}</td>
+<td class="${log.class}">${log.event}</td>
+<td>${log.score}</td>
+<td>${log.server}</td>
+`
+
+tbody.appendChild(row)
+
+})
+
 }
 
 
