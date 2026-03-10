@@ -606,8 +606,7 @@ let winner = null
 if(scoreA >= gamePoint && scoreA - scoreB >= 2){
 winner = "A"
 }
-
-if(scoreB >= gamePoint && scoreB - scoreA >= 2){
+else if(scoreB >= gamePoint && scoreB - scoreA >= 2){
 winner = "B"
 }
 
@@ -630,8 +629,14 @@ stats.slice(1).forEach(p=>{
 output += p.name + " - " + p.pts + " pts<br>"
 })
 
+let winnerName = winner === "A" ? teamAName : teamBName
+
+if(!winnerName || winnerName.trim() === ""){
+winnerName = winner === "A" ? "Team A" : "Team B"
+}
+
 document.getElementById("winnerTitle").innerText =
-"Team " + winner + " Wins!"
+winnerName + " Wins!"
 
 document.getElementById("finalScore").innerText =
 scoreA + " - " + scoreB
