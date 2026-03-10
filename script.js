@@ -20,6 +20,13 @@ b1:"P3",
 b2:"P4"
 }
 
+let playerPoints = {
+a1:0,
+a2:0,
+b1:0,
+b2:0
+}
+
 let startSide = "right"
 let gamePoint = 11
 
@@ -37,7 +44,8 @@ teamASwapped,
 teamBSwapped,
 rallyCount,
 players,
-gameLog
+gameLog,
+playerPoints
 
 }
 
@@ -65,6 +73,7 @@ teamASwapped = state.teamASwapped
 teamBSwapped = state.teamBSwapped
 rallyCount = state.rallyCount
 players = state.players
+playerPoints = state.playerPoints || playerPoints
 
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
@@ -129,6 +138,13 @@ serverNumber = 2
 teamASwapped = false
 teamBSwapped = false
 
+playerPoints = {
+a1:0,
+a2:0,
+b1:0,
+b2:0
+}
+
 server = getRightSideServer()
 
 historyStack = []
@@ -170,7 +186,8 @@ servingTeam,
 serverNumber,
 server,
 teamASwapped,
-teamBSwapped
+teamBSwapped,
+playerPoints: {...playerPoints}
 
 })
 
@@ -223,6 +240,8 @@ scoreB++
 teamBSwapped = !teamBSwapped
 
 }
+
+playerPoints[server]++
 
 checkGameWin()
 
@@ -368,6 +387,7 @@ serverNumber = prev.serverNumber
 server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
+playerPoints = {...prev.playerPoints}
 
 gameLog.shift()
 
@@ -451,9 +471,22 @@ winner = "B"
 
 if(!winner) return
 
-logEvent("Win")
+let stats = [
+{key:"a1", name:players.a1, pts:playerPoints.a1},
+{key:"a2", name:players.a2, pts:playerPoints.a2},
+{key:"b1", name:players.b1, pts:playerPoints.b1},
+{key:"b2", name:players.b2, pts:playerPoints.b2}
+]
 
-let mvp = players[server]
+stats.sort((a,b)=>b.pts-a.pts)
+
+let mvp = stats[0]
+
+let output = "MVP: " + mvp.name + " - " + mvp.pts + " pts<br><br>"
+
+stats.slice(1).forEach(p=>{
+output += p.name + " - " + p.pts + " pts<br>"
+})
 
 document.getElementById("winnerTitle").innerText =
 "Team " + winner + " Wins!"
@@ -461,7 +494,9 @@ document.getElementById("winnerTitle").innerText =
 document.getElementById("finalScore").innerText =
 scoreA + " - " + scoreB
 
-document.getElementById("mvpName").innerText = mvp
+document.getElementById("mvpName").innerHTML = output
+
+logEvent("Win")
 
 document.getElementById("winModal").style.display = "flex"
 
