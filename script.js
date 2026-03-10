@@ -658,7 +658,6 @@ document.getElementById("winModal").style.display = "none"
 }
 
 /* ---------------- DOWNLOAD GAME LOG ---------------- */
-/* ---------------- DOWNLOAD GAME LOG ---------------- */
 function downloadLog(){
 
 const { jsPDF } = window.jspdf
@@ -745,6 +744,8 @@ doc.text(
 }
 
 doc.save("pickleball_match_report.pdf")
+
+}
 
 }
 

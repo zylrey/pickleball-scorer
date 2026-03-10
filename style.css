@@ -485,3 +485,15 @@ color:white;
 border-radius:6px;
 cursor:pointer;
 }
+
+.download-win{
+border:none;
+background:#3b82f6;
+color:white;
+padding:10px 16px;
+border-radius:8px;
+font-size:15px;
+cursor:pointer;
+margin-bottom:10px;
+width:100%;
+}
