@@ -209,7 +209,6 @@ lastTimeoutTeam = team
 
 updateTimeoutUI()
 saveMatch()
-
 }
 
 
@@ -391,7 +390,7 @@ callScore = scoreA + "-" + scoreB + "-" + serverNumber
 callScore = scoreB + "-" + scoreA + "-" + serverNumber
 }
 
-document.getElementById("callScore").innerText = callScore
+document.getElementById("serverName").innerText = callScore
 
 document.querySelectorAll(".player").forEach(p=>{
 p.classList.remove("serving")
