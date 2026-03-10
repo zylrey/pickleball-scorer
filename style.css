@@ -205,7 +205,7 @@ transform:scale(.96);
 
 /* DESKTOP LAYOUT */
 
-@media (min-width:1000px){
+@media (min-width:768px){
 
 .page{
 max-width:1200px;
