@@ -29,8 +29,8 @@ Built by <strong>Zyl Arpon</strong>
 <label>Team Names (optional)</label>
 
 <div class="team-input-row">
-<input id="teamAName" placeholder="Team A Name">
-<input id="teamBName" placeholder="Team B Name">
+<input id="teamAName" placeholder="Team A Name" oninput="updateTeamDropdown()">
+<input id="teamBName" placeholder="Team B Name" oninput="updateTeamDropdown()">
 <button type="button" onclick="toggleTeamNames()" id="teamToggleBtn">Add</button>
 </div>
 
@@ -134,11 +134,11 @@ Score: <span id="serverName"></span>
 
 <div class="controls">
 
-<button class="btn teamA" onclick="rallyWinner('A')">
+<button id="btnTeamA" class="btn teamA" onclick="rallyWinner('A')">
 Team A Won Rally
 </button>
 
-<button class="btn teamB" onclick="rallyWinner('B')">
+<button id="btnTeamB" class="btn teamB" onclick="rallyWinner('B')">
 Team B Won Rally
 </button>
 

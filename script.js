@@ -175,6 +175,9 @@ document.getElementById("startTeamB").innerText = teamBName
 document.getElementById("teamALabel").innerText = teamAName
 document.getElementById("teamBLabel").innerText = teamBName
 
+document.getElementById("btnTeamA").innerText = teamAName + " Won Rally"
+document.getElementById("btnTeamB").innerText = teamBName + " Won Rally"
+
 document.getElementById("a1").innerText = players.a1
 document.getElementById("a2").innerText = players.a2
 document.getElementById("b1").innerText = players.b1
@@ -769,6 +772,16 @@ a.value = ""
 b.value = ""
 
 }
+
+}
+
+function updateTeamDropdown(){
+
+teamAName = document.getElementById("teamAName").value || "TEAM A"
+teamBName = document.getElementById("teamBName").value || "TEAM B"
+
+document.getElementById("startTeamA").innerText = teamAName
+document.getElementById("startTeamB").innerText = teamBName
 
 }
 
