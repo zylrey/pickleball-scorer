@@ -141,12 +141,13 @@ logEvent("Game Start")
 
 function callTimeout(team){
 
-saveState()
-
 if(
 (scoreA >= gamePoint && scoreA - scoreB >= 2) ||
 (scoreB >= gamePoint && scoreB - scoreA >= 2)
 ) return
+
+/* SAVE STATE FOR UNDO */
+saveState()
 
 if(team === "A"){
 
