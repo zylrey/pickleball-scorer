@@ -681,10 +681,10 @@ doc.text(teamBName + ": " + players.b1 + " / " + players.b2,14,55)
 /* PLAYER STATS */
 
 let stats = [
-{name:players.a1, pts:playerPoints.a1},
-{name:players.a2, pts:playerPoints.a2},
-{name:players.b1, pts:playerPoints.b1},
-{name:players.b2, pts:playerPoints.b2}
+{name:players.a1 + " - " + teamAName, pts:playerPoints.a1},
+{name:players.a2 + " - " + teamAName, pts:playerPoints.a2},
+{name:players.b1 + " - " + teamBName, pts:playerPoints.b1},
+{name:players.b2 + " - " + teamBName, pts:playerPoints.b2}
 ]
 
 stats.sort((a,b)=>b.pts-a.pts)
