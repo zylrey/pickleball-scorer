@@ -128,7 +128,17 @@ logEvent("Game Start")
 
 function resetMatch(){
 
-if(!confirm("Reset entire match?")) return
+document.getElementById("resetModal").style.display = "flex"
+
+}
+
+function closeResetModal(){
+
+document.getElementById("resetModal").style.display = "none"
+
+}
+
+function confirmReset(){
 
 localStorage.removeItem("pickleball_match")
 

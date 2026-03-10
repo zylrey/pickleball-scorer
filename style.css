@@ -336,3 +336,57 @@ border-radius:8px;
 font-size:15px;
 cursor:pointer;
 }
+
+
+.reset-modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.reset-card{
+background:white;
+padding:24px;
+border-radius:14px;
+width:90%;
+max-width:320px;
+text-align:center;
+animation:pop .25s ease;
+}
+
+.reset-card h3{
+margin:0 0 10px;
+}
+
+.reset-card p{
+margin-bottom:18px;
+font-size:14px;
+}
+
+.reset-actions{
+display:flex;
+gap:10px;
+justify-content:center;
+}
+
+.reset-cancel{
+border:none;
+background:#94a3b8;
+color:white;
+padding:10px 14px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.reset-confirm{
+border:none;
+background:#ef4444;
+color:white;
+padding:10px 14px;
+border-radius:8px;
+cursor:pointer;
+}
