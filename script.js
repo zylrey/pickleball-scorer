@@ -17,6 +17,8 @@ let teamBSwapped = false
 let historyStack = []
 let rallyCount = 0
 
+let lastTimeoutTeam = null
+
 let players = {
 a1:"P1",
 a2:"P2",
@@ -175,6 +177,14 @@ if(
 (scoreB >= gamePoint && scoreB - scoreA >= 2)
 ) return
 
+if(lastTimeoutTeam === team){
+
+if(!confirm("Same team calling timeout again. Continue?")){
+return
+}
+
+}
+
 saveState()
 
 if(team === "A"){
@@ -182,7 +192,6 @@ if(team === "A"){
 if(timeoutA >= timeoutLimit) return
 
 timeoutA++
-
 logEvent("Timeout A")
 
 }
@@ -192,16 +201,15 @@ if(team === "B"){
 if(timeoutB >= timeoutLimit) return
 
 timeoutB++
-
 logEvent("Timeout B")
 
 }
 
-updateTimeoutUI()
+lastTimeoutTeam = team
 
+updateTimeoutUI()
 saveMatch()
 
-}
 
 
 /* ---------------- RESET ---------------- */
@@ -257,6 +265,8 @@ rallyCount = 0
 gameLog = []
 
 document.querySelector("#logTable tbody").innerHTML = ""
+
+lastTimeoutTeam = null
 
 updateUI()
 saveMatch()
@@ -336,6 +346,8 @@ logEvent("Side Out")
 }
 
 }
+
+lastTimeoutTeam = null
 
 updateUI()
 
