@@ -169,6 +169,9 @@ timeoutLimit = parseInt(document.getElementById("timeouts").value)
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
 
+document.getElementById("startTeamA").innerText = teamAName
+document.getElementById("startTeamB").innerText = teamBName
+
 document.getElementById("teamALabel").innerText = teamAName
 document.getElementById("teamBLabel").innerText = teamBName
 
