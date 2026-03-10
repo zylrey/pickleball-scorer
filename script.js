@@ -1,6 +1,10 @@
 let scoreA = 0
 let scoreB = 0
 
+let timeoutLimit = 2
+let timeoutA = 0
+let timeoutB = 0
+
 let servingTeam = "A"
 let serverNumber = 2
 let server = "a2"
@@ -45,7 +49,10 @@ teamBSwapped,
 rallyCount,
 players,
 gameLog,
-playerPoints
+playerPoints,
+timeoutA,
+timeoutB,
+timeoutLimit
 
 }
 
@@ -74,6 +81,12 @@ teamBSwapped = state.teamBSwapped
 rallyCount = state.rallyCount
 players = state.players
 playerPoints = state.playerPoints || playerPoints
+timeoutA = state.timeoutA || 0
+timeoutB = state.timeoutB || 0
+timeoutLimit = state.timeoutLimit || 2
+
+document.getElementById("timeoutA").innerText = timeoutA
+document.getElementById("timeoutB").innerText = timeoutB
 
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
@@ -110,6 +123,7 @@ players.b2 = document.getElementById("nameB2").value || "P4"
 servingTeam = document.getElementById("startTeam").value
 
 gamePoint = parseInt(document.getElementById("gameTo").value)
+timeoutLimit = parseInt(document.getElementById("timeouts").value)
 
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
@@ -122,6 +136,43 @@ document.getElementById("b2").innerText = players.b2
 resetGame()
 
 logEvent("Game Start")
+
+}
+
+function callTimeout(team){
+
+saveState()
+
+if(
+(scoreA >= gamePoint && scoreA - scoreB >= 2) ||
+(scoreB >= gamePoint && scoreB - scoreA >= 2)
+) return
+
+if(team === "A"){
+
+if(timeoutA >= timeoutLimit) return
+
+timeoutA++
+
+document.getElementById("timeoutA").innerText = timeoutA
+
+logEvent("Timeout A")
+
+}
+
+if(team === "B"){
+
+if(timeoutB >= timeoutLimit) return
+
+timeoutB++
+
+document.getElementById("timeoutB").innerText = timeoutB
+
+logEvent("Timeout B")
+
+}
+
+saveMatch()
 
 }
 
@@ -151,6 +202,12 @@ function resetGame(){
 
 scoreA = 0
 scoreB = 0
+
+timeoutA = 0
+timeoutB = 0
+
+document.getElementById("timeoutA").innerText = 0
+document.getElementById("timeoutB").innerText = 0
 
 serverNumber = 2
 
@@ -206,7 +263,9 @@ serverNumber,
 server,
 teamASwapped,
 teamBSwapped,
-playerPoints: {...playerPoints}
+playerPoints: {...playerPoints},
+timeoutA,
+timeoutB
 
 })
 
@@ -376,6 +435,8 @@ if(event==="Server Change") colorClass="log-change"
 if(event==="Side Out") colorClass="log-sideout"
 if(event==="Game Start") colorClass="log-start"
 if(event==="Win") colorClass="log-win"
+if(event==="Timeout A") colorClass="log-timeout"
+if(event==="Timeout B") colorClass="log-timeout"
 
 const logEntry = {
 id:rallyCount,
@@ -407,6 +468,11 @@ server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
 playerPoints = {...prev.playerPoints}
+timeoutA = prev.timeoutA
+timeoutB = prev.timeoutB
+
+document.getElementById("timeoutA").innerText = timeoutA
+document.getElementById("timeoutB").innerText = timeoutB
 
 gameLog.shift()
 
