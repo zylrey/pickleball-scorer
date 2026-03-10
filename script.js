@@ -391,7 +391,7 @@ callScore = scoreA + "-" + scoreB + "-" + serverNumber
 callScore = scoreB + "-" + scoreA + "-" + serverNumber
 }
 
-document.getElementById("serverName").innerText = callScore
+document.getElementById("callScore").innerText = callScore
 
 document.querySelectorAll(".player").forEach(p=>{
 p.classList.remove("serving")
