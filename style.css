@@ -199,7 +199,7 @@ transform:scale(.96);
 .undo{background:#f59e0b;}
 
 
-/* DESKTOP LAYOUT */
+/* TABLET LAYOUT */
 
 @media (min-width:768px){
 
@@ -219,6 +219,27 @@ gap:18px;
 
 .log-section{
 width:100%;
+}
+
+}
+
+/* TABLET LAYOUT */
+
+@media (min-width:1200px){
+
+.page{
+max-width:1400px;
+grid-template-columns: 3fr 1fr;
+gap:32px;
+}
+
+.court{
+max-width:900px;
+}
+
+.log-section{
+max-height:650px;
+overflow-y:auto;
 }
 
 }
