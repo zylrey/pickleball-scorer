@@ -22,6 +22,53 @@ let startSide = "right"
 let gamePoint = 11
 
 
+function saveMatch(){
+
+const state = {
+
+scoreA,
+scoreB,
+servingTeam,
+serverNumber,
+server,
+teamASwapped,
+teamBSwapped,
+rallyCount,
+players
+}
+
+localStorage.setItem(
+"pickleball_match",
+JSON.stringify(state)
+)
+
+}
+
+function loadMatch(){
+
+const saved = localStorage.getItem("pickleball_match")
+
+if(!saved) return
+
+const state = JSON.parse(saved)
+
+scoreA = state.scoreA
+scoreB = state.scoreB
+servingTeam = state.servingTeam
+serverNumber = state.serverNumber
+server = state.server
+teamASwapped = state.teamASwapped
+teamBSwapped = state.teamBSwapped
+rallyCount = state.rallyCount
+players = state.players
+
+document.getElementById("setupScreen").style.display="none"
+document.getElementById("gameScreen").style.display="block"
+
+updateUI()
+
+}
+
 function startGame(){
 
 players.a1 = document.getElementById("nameA1").value || "P1"
@@ -66,7 +113,7 @@ rallyCount = 0
 document.querySelector("#logTable tbody").innerHTML = ""
 
 updateUI()
-
+saveMatch()
 }
 
 
@@ -133,6 +180,7 @@ logEvent("Side Out")
 
 updateUI()
 
+saveMatch()
 }
 
 
@@ -300,7 +348,7 @@ table.removeChild(table.firstChild)
 }
 
 updateUI()
-
+saveMatch()
 }
 
 
@@ -386,3 +434,5 @@ btn.style.opacity = ".5"
 })
 
 }
+
+window.onload = loadMatch
