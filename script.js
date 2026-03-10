@@ -547,7 +547,22 @@ winner = "B"
 
 if(!winner) return
 
-logEvent("Win")
+let stats = [
+{name:players.a1, pts:playerPoints.a1},
+{name:players.a2, pts:playerPoints.a2},
+{name:players.b1, pts:playerPoints.b1},
+{name:players.b2, pts:playerPoints.b2}
+]
+
+stats.sort((a,b)=>b.pts-a.pts)
+
+let mvp = stats[0]
+
+let output = "MVP: " + mvp.name + " - " + mvp.pts + " pts<br><br>"
+
+stats.slice(1).forEach(p=>{
+output += p.name + " - " + p.pts + " pts<br>"
+})
 
 document.getElementById("winnerTitle").innerText =
 "Team " + winner + " Wins!"
@@ -555,15 +570,13 @@ document.getElementById("winnerTitle").innerText =
 document.getElementById("finalScore").innerText =
 scoreA + " - " + scoreB
 
+document.getElementById("mvpName").innerHTML = output
+
+logEvent("Win")
+
 document.getElementById("winModal").style.display = "flex"
 
 disableGame()
-
-}
-
-function closeWinModal(){
-
-document.getElementById("winModal").style.display="none"
 
 }
 
