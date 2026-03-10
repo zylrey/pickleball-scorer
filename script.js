@@ -97,6 +97,7 @@ if(
 ){
 disableGame()
 }
+}
 
 
 function startGame(){
