@@ -88,6 +88,14 @@ updateUI()
 gameLog = state.gameLog || []
 
 renderLog()
+
+/* disable buttons if match already finished */
+
+if(
+(scoreA >= gamePoint && scoreA - scoreB >= 2) ||
+(scoreB >= gamePoint && scoreB - scoreA >= 2)
+){
+disableGame()
 }
 
 
@@ -578,10 +586,13 @@ document.getElementById("winModal").style.display="none"
 
 function disableGame(){
 
-document.querySelectorAll(".btn").forEach(btn=>{
-btn.disabled = true
-btn.style.opacity = ".5"
-})
+document.querySelector(".teamA").disabled = true
+document.querySelector(".teamB").disabled = true
+document.querySelector(".undo").disabled = true
+
+document.querySelector(".teamA").style.opacity = ".5"
+document.querySelector(".teamB").style.opacity = ".5"
+document.querySelector(".undo").style.opacity = ".5"
 
 }
 
