@@ -5,6 +5,9 @@ let timeoutLimit = 2
 let timeoutA = 0
 let timeoutB = 0
 
+let teamAName = "TEAM A"
+let teamBName = "TEAM B"
+
 let servingTeam = "A"
 let serverNumber = 2
 let server = "a2"
@@ -75,7 +78,9 @@ gameLog,
 playerPoints,
 timeoutA,
 timeoutB,
-timeoutLimit
+timeoutLimit,
+teamAName,
+teamBName
 
 }
 
@@ -112,10 +117,16 @@ timeoutA = state.timeoutA || 0
 timeoutB = state.timeoutB || 0
 timeoutLimit = state.timeoutLimit || 2
 
+teamAName = state.teamAName || "TEAM A"
+teamBName = state.teamBName || "TEAM B"
+
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
 
 document.getElementById("rallyNum").innerText = rallyCount
+
+document.getElementById("teamALabel").innerText = teamAName
+document.getElementById("teamBLabel").innerText = teamBName
 
 document.getElementById("a1").innerText = players.a1
 document.getElementById("a2").innerText = players.a2
@@ -147,6 +158,8 @@ players.a1 = document.getElementById("nameA1").value || "P1"
 players.a2 = document.getElementById("nameA2").value || "P2"
 players.b1 = document.getElementById("nameB1").value || "P3"
 players.b2 = document.getElementById("nameB2").value || "P4"
+teamAName = document.getElementById("teamAName").value || "TEAM A"
+teamBName = document.getElementById("teamBName").value || "TEAM B"
 
 servingTeam = document.getElementById("startTeam").value
 
@@ -155,6 +168,9 @@ timeoutLimit = parseInt(document.getElementById("timeouts").value)
 
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
+
+document.getElementById("teamALabel").innerText = teamAName
+document.getElementById("teamBLabel").innerText = teamBName
 
 document.getElementById("a1").innerText = players.a1
 document.getElementById("a2").innerText = players.a2
@@ -592,10 +608,10 @@ winner = "B"
 if(!winner) return
 
 let stats = [
-{name:players.a1, pts:playerPoints.a1},
-{name:players.a2, pts:playerPoints.a2},
-{name:players.b1, pts:playerPoints.b1},
-{name:players.b2, pts:playerPoints.b2}
+{name:players.a1 + " - " + teamAName, pts:playerPoints.a1},
+{name:players.a2 + " - " + teamAName, pts:playerPoints.a2},
+{name:players.b1 + " - " + teamBName, pts:playerPoints.b1},
+{name:players.b2 + " - " + teamBName, pts:playerPoints.b2}
 ]
 
 stats.sort((a,b)=>b.pts-a.pts)
@@ -653,8 +669,8 @@ doc.setFontSize(12)
 
 doc.text("Final Score: " + scoreA + " - " + scoreB,14,40)
 
-doc.text("Team A: " + players.a1 + " / " + players.a2,14,48)
-doc.text("Team B: " + players.b1 + " / " + players.b2,14,55)
+doc.text(teamAName + ": " + players.a1 + " / " + players.a2,14,48)
+doc.text(teamBName + ": " + players.b1 + " / " + players.b2,14,55)
 
 /* PLAYER STATS */
 
@@ -725,6 +741,31 @@ document.querySelector(".undo").disabled = true
 document.querySelector(".teamA").style.opacity = ".5"
 document.querySelector(".teamB").style.opacity = ".5"
 document.querySelector(".undo").style.opacity = ".5"
+
+}
+
+function toggleTeamNames(){
+
+const a = document.getElementById("teamAName")
+const b = document.getElementById("teamBName")
+const btn = document.getElementById("teamToggleBtn")
+
+if(a.style.display === "none" || a.style.display === ""){
+
+a.style.display = "block"
+b.style.display = "block"
+btn.innerText = "Remove"
+
+}else{
+
+a.style.display = "none"
+b.style.display = "none"
+btn.innerText = "Add"
+
+a.value = ""
+b.value = ""
+
+}
 
 }
 

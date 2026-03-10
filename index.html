@@ -26,6 +26,14 @@ Built by <strong>Zyl Arpon</strong>
 
 <h2>Players</h2>
 
+<label>Team Names (optional)</label>
+
+<div class="team-input-row">
+<input id="teamAName" placeholder="Team A Name">
+<input id="teamBName" placeholder="Team B Name">
+<button type="button" onclick="toggleTeamNames()" id="teamToggleBtn">Add</button>
+</div>
+
 <label>Player 1 (Team A)</label>
 <input id="nameA1" placeholder="Player 1">
 
@@ -91,8 +99,8 @@ Built by <strong>Zyl Arpon</strong>
 
 <img src="court.png" class="court-img">
 
-<div class="team-label team-left">TEAM A</div>
-<div class="team-label team-right">TEAM B</div>
+<div id="teamALabel" class="team-label team-left">TEAM A</div>
+<div id="teamBLabel" class="team-label team-right">TEAM B</div>
 
 <div class="rally-counter">
 Rally <span id="rallyNum">0</span>

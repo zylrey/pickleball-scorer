@@ -462,3 +462,23 @@ font-size:13px;
 font-weight:bold;
 letter-spacing:.5px;
 }
+
+.team-input-row input{
+display:none;
+flex:1;
+}
+
+.team-input-row{
+display:flex;
+gap:6px;
+align-items:center;
+}
+
+.team-input-row button{
+padding:8px 12px;
+border:none;
+background:#16a34a;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
