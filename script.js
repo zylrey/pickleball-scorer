@@ -658,15 +658,23 @@ document.getElementById("winModal").style.display = "none"
 }
 
 /* ---------------- DOWNLOAD GAME LOG ---------------- */
+/* ---------------- DOWNLOAD GAME LOG ---------------- */
 function downloadLog(){
 
 const { jsPDF } = window.jspdf
 const doc = new jsPDF()
 
+const logo = new Image()
+logo.src = "logo.png"
+
+logo.onload = function(){
+
 /* HEADER */
 
 doc.setFillColor(34,197,94)
 doc.rect(0,0,210,25,"F")
+
+doc.addImage(logo,"PNG",14,4,16,16)
 
 doc.setTextColor(255,255,255)
 doc.setFontSize(18)
