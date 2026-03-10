@@ -35,6 +35,7 @@ teamASwapped,
 teamBSwapped,
 rallyCount,
 players
+
 }
 
 localStorage.setItem(
@@ -65,9 +66,15 @@ players = state.players
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
 
+document.getElementById("a1").innerText = players.a1
+document.getElementById("a2").innerText = players.a2
+document.getElementById("b1").innerText = players.b1
+document.getElementById("b2").innerText = players.b2
+
 updateUI()
 
 }
+
 
 function startGame(){
 
@@ -91,6 +98,17 @@ document.getElementById("b2").innerText = players.b2
 resetGame()
 
 logEvent("Game Start")
+
+}
+
+
+function resetMatch(){
+
+if(!confirm("Reset entire match?")) return
+
+localStorage.removeItem("pickleball_match")
+
+location.reload()
 
 }
 
