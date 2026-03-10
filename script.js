@@ -210,6 +210,7 @@ lastTimeoutTeam = team
 updateTimeoutUI()
 saveMatch()
 
+}
 
 
 /* ---------------- RESET ---------------- */
@@ -335,7 +336,6 @@ if(serverNumber === 1){
 
 serverNumber = 2
 server = getPartner(server)
-
 logEvent("Server Change")
 
 }else{
@@ -350,7 +350,6 @@ logEvent("Side Out")
 lastTimeoutTeam = null
 
 updateUI()
-
 saveMatch()
 
 }
