@@ -391,27 +391,30 @@ border-radius:8px;
 cursor:pointer;
 }
 
-.timeout-indicator{
+.timeout-row{
 position:absolute;
-background:rgba(0,0,0,.65);
-color:white;
-padding:6px 10px;
-border-radius:6px;
-font-weight:bold;
-font-size:13px;
+display:flex;
+gap:8px;
 }
 
 .timeoutA{
-bottom:4%;
-left:4%;
+bottom:8%;
+left:35%;
 }
 
 .timeoutB{
-top:4%;
-right:4%;
+bottom:8%;
+right:35%;
 }
 
-.log-timeout{
-color:#f97316;
-font-weight:bold;
+.timeout-dot{
+width:14px;
+height:14px;
+border-radius:50%;
+border:2px solid white;
+background:transparent;
+}
+
+.timeout-dot.used{
+background:white;
 }

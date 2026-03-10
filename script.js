@@ -31,9 +31,30 @@ b1:0,
 b2:0
 }
 
-let startSide = "right"
 let gamePoint = 11
 
+
+/* ---------------- TIMEOUT UI ---------------- */
+
+function updateTimeoutUI(){
+
+for(let i=1;i<=3;i++){
+document.getElementById("a_to"+i)?.classList.remove("used")
+document.getElementById("b_to"+i)?.classList.remove("used")
+}
+
+for(let i=1;i<=timeoutA;i++){
+document.getElementById("a_to"+i)?.classList.add("used")
+}
+
+for(let i=1;i<=timeoutB;i++){
+document.getElementById("b_to"+i)?.classList.add("used")
+}
+
+}
+
+
+/* ---------------- SAVE ---------------- */
 
 function saveMatch(){
 
@@ -63,6 +84,9 @@ JSON.stringify(state)
 
 }
 
+
+/* ---------------- LOAD ---------------- */
+
 function loadMatch(){
 
 const saved = localStorage.getItem("pickleball_match")
@@ -81,12 +105,10 @@ teamBSwapped = state.teamBSwapped
 rallyCount = state.rallyCount
 players = state.players
 playerPoints = state.playerPoints || playerPoints
+
 timeoutA = state.timeoutA || 0
 timeoutB = state.timeoutB || 0
 timeoutLimit = state.timeoutLimit || 2
-
-document.getElementById("timeoutA").innerText = timeoutA
-document.getElementById("timeoutB").innerText = timeoutB
 
 document.getElementById("setupScreen").style.display="none"
 document.getElementById("gameScreen").style.display="block"
@@ -97,12 +119,11 @@ document.getElementById("b1").innerText = players.b1
 document.getElementById("b2").innerText = players.b2
 
 updateUI()
+updateTimeoutUI()
 
 gameLog = state.gameLog || []
 
 renderLog()
-
-/* disable buttons if match already finished */
 
 if(
 (scoreA >= gamePoint && scoreA - scoreB >= 2) ||
@@ -110,8 +131,11 @@ if(
 ){
 disableGame()
 }
+
 }
 
+
+/* ---------------- START ---------------- */
 
 function startGame(){
 
@@ -139,6 +163,9 @@ logEvent("Game Start")
 
 }
 
+
+/* ---------------- TIMEOUT ---------------- */
+
 function callTimeout(team){
 
 if(
@@ -146,7 +173,6 @@ if(
 (scoreB >= gamePoint && scoreB - scoreA >= 2)
 ) return
 
-/* SAVE STATE FOR UNDO */
 saveState()
 
 if(team === "A"){
@@ -154,8 +180,6 @@ if(team === "A"){
 if(timeoutA >= timeoutLimit) return
 
 timeoutA++
-
-document.getElementById("timeoutA").innerText = timeoutA
 
 logEvent("Timeout A")
 
@@ -167,16 +191,18 @@ if(timeoutB >= timeoutLimit) return
 
 timeoutB++
 
-document.getElementById("timeoutB").innerText = timeoutB
-
 logEvent("Timeout B")
 
 }
+
+updateTimeoutUI()
 
 saveMatch()
 
 }
 
+
+/* ---------------- RESET ---------------- */
 
 function resetMatch(){
 
@@ -198,7 +224,6 @@ location.reload()
 
 }
 
-
 function resetGame(){
 
 scoreA = 0
@@ -207,8 +232,7 @@ scoreB = 0
 timeoutA = 0
 timeoutB = 0
 
-document.getElementById("timeoutA").innerText = 0
-document.getElementById("timeoutB").innerText = 0
+updateTimeoutUI()
 
 serverNumber = 2
 
@@ -236,22 +260,29 @@ saveMatch()
 }
 
 
+/* ---------------- SERVING ---------------- */
+
 function getRightSideServer(){
 
 if(servingTeam === "A"){
-
-// bottom-left box
 return teamASwapped ? "a1" : "a2"
-
 }else{
-
-// top-right box
 return teamBSwapped ? "b2" : "b1"
-
 }
 
 }
 
+function getPartner(player){
+
+if(player === "a1") return "a2"
+if(player === "a2") return "a1"
+if(player === "b1") return "b2"
+if(player === "b2") return "b1"
+
+}
+
+
+/* ---------------- STATE ---------------- */
 
 function saveState(){
 
@@ -272,6 +303,8 @@ timeoutB
 
 }
 
+
+/* ---------------- RALLY ---------------- */
 
 function rallyWinner(team){
 
@@ -303,21 +336,17 @@ logEvent("Side Out")
 updateUI()
 
 saveMatch()
-}
 
+}
 
 function scorePoint(team){
 
 if(team === "A"){
-
 scoreA++
 teamASwapped = !teamASwapped
-
 }else{
-
 scoreB++
 teamBSwapped = !teamBSwapped
-
 }
 
 playerPoints[server]++
@@ -326,27 +355,16 @@ checkGameWin()
 
 }
 
-
 function sideOut(){
 
 servingTeam = servingTeam === "A" ? "B" : "A"
-
 serverNumber = 1
-
 server = getRightSideServer()
 
 }
 
 
-function getPartner(player){
-
-if(player === "a1") return "a2"
-if(player === "a2") return "a1"
-if(player === "b1") return "b2"
-if(player === "b2") return "b1"
-
-}
-
+/* ---------------- UI ---------------- */
 
 function updateUI(){
 
@@ -371,6 +389,8 @@ renderPositions()
 }
 
 
+/* ---------------- POSITIONS ---------------- */
+
 function renderPositions(){
 
 const a1 = document.getElementById("a1")
@@ -382,7 +402,6 @@ if(teamASwapped){
 
 a1.style.top="auto"
 a1.style.bottom="15%"
-
 a2.style.bottom="auto"
 a2.style.top="15%"
 
@@ -390,7 +409,6 @@ a2.style.top="15%"
 
 a1.style.bottom="auto"
 a1.style.top="15%"
-
 a2.style.top="auto"
 a2.style.bottom="15%"
 
@@ -400,7 +418,6 @@ if(teamBSwapped){
 
 b1.style.top="auto"
 b1.style.bottom="15%"
-
 b2.style.bottom="auto"
 b2.style.top="15%"
 
@@ -408,7 +425,6 @@ b2.style.top="15%"
 
 b1.style.bottom="auto"
 b1.style.top="15%"
-
 b2.style.top="auto"
 b2.style.bottom="15%"
 
@@ -416,6 +432,8 @@ b2.style.bottom="15%"
 
 }
 
+
+/* ---------------- LOG ---------------- */
 
 function logEvent(event){
 
@@ -455,6 +473,8 @@ saveMatch()
 }
 
 
+/* ---------------- UNDO ---------------- */
+
 function undoAction(){
 
 if(historyStack.length === 0) return
@@ -468,12 +488,13 @@ serverNumber = prev.serverNumber
 server = prev.server
 teamASwapped = prev.teamASwapped
 teamBSwapped = prev.teamBSwapped
+
 playerPoints = {...prev.playerPoints}
+
 timeoutA = prev.timeoutA
 timeoutB = prev.timeoutB
 
-document.getElementById("timeoutA").innerText = timeoutA
-document.getElementById("timeoutB").innerText = timeoutB
+updateTimeoutUI()
 
 gameLog.shift()
 
@@ -482,6 +503,9 @@ updateUI()
 saveMatch()
 
 }
+
+
+/* ---------------- LOG RENDER ---------------- */
 
 function renderLog(){
 
@@ -507,107 +531,7 @@ tbody.appendChild(row)
 }
 
 
-function downloadLog(){
-
-const { jsPDF } = window.jspdf
-const doc = new jsPDF()
-
-/* HEADER */
-
-doc.setFillColor(34,197,94)
-doc.rect(0,0,210,25,"F")
-
-doc.setTextColor(255,255,255)
-doc.setFontSize(18)
-doc.text("Pickleball Match Report",105,15,{align:"center"})
-
-doc.setTextColor(0,0,0)
-
-/* MATCH INFO */
-
-doc.setFontSize(12)
-
-doc.text("Final Score: " + scoreA + " - " + scoreB,14,40)
-
-doc.text("Team A: " + players.a1 + " / " + players.a2,14,48)
-doc.text("Team B: " + players.b1 + " / " + players.b2,14,55)
-
-/* PLAYER STATS */
-
-let stats = [
-{name:players.a1, pts:playerPoints.a1},
-{name:players.a2, pts:playerPoints.a2},
-{name:players.b1, pts:playerPoints.b1},
-{name:players.b2, pts:playerPoints.b2}
-]
-
-stats.sort((a,b)=>b.pts-a.pts)
-
-doc.text("Player Points",14,70)
-
-doc.autoTable({
-
-startY:74,
-
-head:[["Player","Points"]],
-
-body:stats.map(p=>[p.name,p.pts]),
-
-theme:"grid",
-
-headStyles:{
-fillColor:[34,197,94]
-}
-
-})
-
-/* GAME LOG */
-
-let logData = gameLog.slice().reverse().map(log=>[
-log.id,
-log.event,
-log.score,
-log.server
-])
-
-doc.autoTable({
-
-startY:doc.lastAutoTable.finalY + 10,
-
-head:[["#", "Event", "Score", "Server"]],
-
-body:logData,
-
-theme:"striped",
-
-headStyles:{
-fillColor:[59,130,246]
-}
-
-})
-
-/* FOOTER */
-
-let pageCount = doc.internal.getNumberOfPages()
-
-for(let i=1;i<=pageCount;i++){
-
-doc.setPage(i)
-
-doc.setFontSize(10)
-
-doc.text(
-"Generated by Pickleball Scorer by Zyl Arpon",
-105,
-290,
-{align:"center"}
-)
-
-}
-
-doc.save("pickleball_match_report.pdf")
-
-}
+/* ---------------- GAME END ---------------- */
 
 function checkGameWin(){
 
@@ -623,32 +547,13 @@ winner = "B"
 
 if(!winner) return
 
-let stats = [
-{key:"a1", name:players.a1, pts:playerPoints.a1},
-{key:"a2", name:players.a2, pts:playerPoints.a2},
-{key:"b1", name:players.b1, pts:playerPoints.b1},
-{key:"b2", name:players.b2, pts:playerPoints.b2}
-]
-
-stats.sort((a,b)=>b.pts-a.pts)
-
-let mvp = stats[0]
-
-let output = "MVP: " + mvp.name + " - " + mvp.pts + " pts<br><br>"
-
-stats.slice(1).forEach(p=>{
-output += p.name + " - " + p.pts + " pts<br>"
-})
+logEvent("Win")
 
 document.getElementById("winnerTitle").innerText =
 "Team " + winner + " Wins!"
 
 document.getElementById("finalScore").innerText =
 scoreA + " - " + scoreB
-
-document.getElementById("mvpName").innerHTML = output
-
-logEvent("Win")
 
 document.getElementById("winModal").style.display = "flex"
 
@@ -661,6 +566,9 @@ function closeWinModal(){
 document.getElementById("winModal").style.display="none"
 
 }
+
+
+/* ---------------- DISABLE ---------------- */
 
 function disableGame(){
 
