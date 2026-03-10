@@ -142,7 +142,7 @@ Team A Timeout
 Team B Timeout
 </button>
 
-<button class="btn undo" onclick="undoAction()">
+<button class="btn undo" onclick="openUndoModal()">
 Undo
 </button>
 
@@ -221,6 +221,31 @@ Close
 <button class="reset-cancel" onclick="closeResetModal()">Cancel</button>
 
 <button class="reset-confirm" onclick="confirmReset()">Reset</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="undoModal" class="reset-modal">
+
+<div class="reset-card">
+
+<h3>Admin Authorization</h3>
+
+<p>Type <strong>admin</strong> to allow undo.</p>
+
+<input id="undoPassword" type="password" placeholder="Enter admin code"
+style="width:100%;padding:10px;margin-bottom:16px;border:1px solid #ccc;border-radius:6px">
+
+<div class="reset-actions">
+
+<button class="reset-cancel" onclick="closeUndoModal()">Cancel</button>
+
+<button class="reset-confirm" onclick="confirmUndo()">Authorize</button>
+
+</div>
 
 </div>
 

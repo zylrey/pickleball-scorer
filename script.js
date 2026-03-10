@@ -481,6 +481,34 @@ saveMatch()
 
 /* ---------------- UNDO ---------------- */
 
+function openUndoModal(){
+
+document.getElementById("undoPassword").value = ""
+document.getElementById("undoModal").style.display = "flex"
+
+}
+
+function closeUndoModal(){
+
+document.getElementById("undoModal").style.display = "none"
+
+}
+
+function confirmUndo(){
+
+const code = document.getElementById("undoPassword").value.trim()
+
+if(code !== "admin"){
+alert("Invalid admin code")
+return
+}
+
+closeUndoModal()
+
+undoAction()
+
+}
+
 function undoAction(){
 
 if(historyStack.length === 0) return
