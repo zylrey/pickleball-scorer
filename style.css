@@ -19,7 +19,7 @@ min-height:100vh;
 
 .page{
 width:100%;
-max-width:640px;
+max-width:1200px;
 
 display:flex;
 flex-direction:column;
@@ -288,7 +288,7 @@ cursor:pointer;
 
 .app-header{
 width:100%;
-max-width:640px;
+max-width:1200px;
 
 text-align:center;
 
