@@ -210,19 +210,23 @@ transform:scale(.96);
 .page{
 max-width:1200px;
 display:grid;
-grid-template-columns: 2fr 1fr;
+grid-template-columns:2fr 1fr;
+grid-template-rows:auto auto;
 gap:24px;
-align-items:start;
 }
 
 .left-panel{
+grid-row:1 / span 2;
 display:flex;
 flex-direction:column;
 gap:18px;
 }
 
 .log-section{
-width:100%;
+grid-row:1 / span 2;
+display:flex;
+flex-direction:column;
+height:100%;
 }
 
 }
@@ -233,16 +237,19 @@ width:100%;
 
 .page{
 max-width:1400px;
-grid-template-columns: 3fr 1fr;
+display:grid;
+grid-template-columns:3fr 1fr;
+grid-template-rows:auto auto;
 gap:32px;
+align-items:start;
 }
 
-.court{
-max-width:900px;
+.left-panel{
+grid-row:1 / span 2;
 }
 
 .log-section{
-height:240px;
+height:100%;
 display:flex;
 flex-direction:column;
 }
@@ -258,7 +265,7 @@ font-size:14px;
 .log-section tbody{
 display:block;
 overflow-y:auto;
-max-height:150px;
+flex:1;
 }
 
 .log-section thead,
