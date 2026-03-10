@@ -71,7 +71,7 @@ cursor:pointer;
 .court{
 position:relative;
 width:100%;
-aspect-ratio:2/1;
+aspect-ratio:2.2/1;
 }
 
 .court-img{
@@ -203,6 +203,41 @@ transform:scale(.96);
 .undo{background:#f59e0b;}
 
 
+/* DESKTOP LAYOUT */
+
+@media (min-width:1000px){
+
+.page{
+max-width:1200px;
+flex-direction:row;
+align-items:flex-start;
+}
+
+/* LEFT SIDE (court + scoreboard) */
+
+.court{
+flex:2;
+}
+
+.scoreboard{
+flex:2;
+}
+
+/* RIGHT SIDE (game log) */
+
+.log-section{
+flex:1;
+max-width:380px;
+}
+
+/* stack court + scoreboard inside left column */
+
+.court,
+.scoreboard{
+width:100%;
+}
+
+}
 
 /* GAME LOG */
 
