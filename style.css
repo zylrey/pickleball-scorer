@@ -463,18 +463,21 @@ font-weight:bold;
 letter-spacing:.5px;
 }
 
-.team-input-row input{
-display:none;
-flex:1;
-}
-
 .team-input-row{
 display:flex;
-gap:6px;
-align-items:center;
+flex-wrap:wrap;
+gap:8px;
+width:100%;
+}
+
+.team-input-row input{
+display:none;
+flex:1 1 calc(50% - 4px);
+min-width:0;
 }
 
 .team-input-row button{
+flex:1 1 100%;
 padding:8px 12px;
 border:none;
 background:#16a34a;
