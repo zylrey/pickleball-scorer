@@ -83,6 +83,7 @@ font-size:14px;
 }
 
 .team-left{left:-32px;}
+
 .team-right{
 right:-32px;
 transform:translateY(-50%) rotate(90deg);
@@ -180,20 +181,10 @@ gap:28px;
 align-items:start;
 }
 
-/* left column */
-
 .left-panel{
 display:flex;
 flex-direction:column;
 gap:18px;
-}
-
-/* right column */
-
-.log-section{
-height:100%;
-display:flex;
-flex-direction:column;
 }
 
 }
@@ -207,11 +198,18 @@ padding:16px;
 border-radius:14px;
 display:flex;
 flex-direction:column;
-gap:12px;
+height:520px;
 }
 
 .log-section h3{
-margin:0;
+margin:0 0 10px 0;
+}
+
+/* scroll container */
+
+.log-table-wrapper{
+flex:1;
+overflow-y:auto;
 }
 
 /* table */
@@ -222,21 +220,6 @@ border-collapse:collapse;
 font-size:14px;
 }
 
-/* scrollable rows */
-
-.log-section tbody{
-display:block;
-overflow-y:auto;
-max-height:260px;
-}
-
-.log-section thead,
-.log-section tbody tr{
-display:table;
-width:100%;
-table-layout:fixed;
-}
-
 #logTable th,
 #logTable td{
 padding:8px 6px;
@@ -244,10 +227,10 @@ border-bottom:1px solid rgba(255,255,255,.15);
 text-align:center;
 }
 
-/* download button */
+/* download button pinned bottom */
 
 .download-btn{
-margin-top:auto;
+margin-top:12px;
 padding:12px;
 border:none;
 border-radius:8px;
