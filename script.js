@@ -423,37 +423,62 @@ tbody.appendChild(row)
 
 function downloadLog(){
 
-const rows = document.querySelectorAll("#logTable tr")
+const { jsPDF } = window.jspdf
 
-let csv=[]
+const doc = new jsPDF()
 
-rows.forEach(row=>{
+let y = 20
 
-const cols=row.querySelectorAll("th,td")
+doc.setFontSize(18)
+doc.text("Pickleball Match Log", 14, y)
 
-let rowData=[]
+y += 10
 
-cols.forEach(col=>{
-rowData.push(col.innerText)
+doc.setFontSize(12)
+doc.text("Final Score: " + scoreA + " - " + scoreB, 14, y)
+
+y += 10
+
+doc.text("Players:", 14, y)
+y += 6
+
+doc.text("Team A: " + players.a1 + " / " + players.a2, 14, y)
+y += 6
+doc.text("Team B: " + players.b1 + " / " + players.b2, 14, y)
+
+y += 12
+
+doc.setFontSize(14)
+doc.text("Game Log", 14, y)
+
+y += 8
+
+doc.setFontSize(10)
+
+doc.text("#",14,y)
+doc.text("Event",30,y)
+doc.text("Score",90,y)
+doc.text("Server",120,y)
+
+y += 6
+
+gameLog.slice().reverse().forEach(log=>{
+
+doc.text(String(log.id),14,y)
+doc.text(log.event,30,y)
+doc.text(log.score,90,y)
+doc.text(log.server,120,y)
+
+y += 6
+
+if(y > 280){
+doc.addPage()
+y = 20
+}
+
 })
 
-csv.push(rowData.join(","))
-
-})
-
-const blob=new Blob([csv.join("\n")],{type:"text/csv"})
-const url=window.URL.createObjectURL(blob)
-
-const a=document.createElement("a")
-
-a.href=url
-a.download="pickleball_game_log.csv"
-
-document.body.appendChild(a)
-
-a.click()
-
-document.body.removeChild(a)
+doc.save("pickleball_match_log.pdf")
 
 }
 
