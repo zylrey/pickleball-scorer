@@ -21,6 +21,8 @@ let historyStack = []
 let rallyCount = 0
 
 let lastTimeoutTeam = null
+let timeoutInterval = null
+let matchPointTimer = null
 
 let players = {
 a1:"P1",
@@ -200,37 +202,78 @@ if(
 ) return
 
 if(lastTimeoutTeam === team){
-
 if(!confirm("Same team calling timeout again. Continue?")){
 return
 }
+}
 
+if(team === "A"){
+if(timeoutA >= timeoutLimit) return
+}
+
+if(team === "B"){
+if(timeoutB >= timeoutLimit) return
 }
 
 saveState()
 
 if(team === "A"){
-
-if(timeoutA >= timeoutLimit) return
-
 timeoutA++
 logEvent("Timeout A")
-
 }
 
 if(team === "B"){
-
-if(timeoutB >= timeoutLimit) return
-
 timeoutB++
 logEvent("Timeout B")
-
 }
 
 lastTimeoutTeam = team
 
 updateTimeoutUI()
 saveMatch()
+
+hideMatchPoint()
+
+startTimeoutClock()
+
+}
+
+function startTimeoutClock(){
+
+let overlay = document.getElementById("timeoutOverlay")
+if(!overlay) return
+let timerEl = document.getElementById("timeoutTimer")
+let textEl = document.getElementById("timeoutText")
+
+let time = 60
+
+if(timeoutInterval) clearInterval(timeoutInterval)
+
+overlay.style.display = "flex"
+textEl.innerText = "TIMEOUT"
+timerEl.innerText = time
+
+timeoutInterval = setInterval(()=>{
+
+time--
+timerEl.innerText = time
+
+if(time <= 0){
+
+clearInterval(timeoutInterval)
+timeoutInterval = null
+
+textEl.innerText = "TIMEOUT ENDED"
+timerEl.innerText = ""
+
+setTimeout(()=>{
+overlay.style.display = "none"
+},2000)
+
+}
+
+},1000)
+
 }
 
 
@@ -289,6 +332,8 @@ gameLog = []
 document.querySelector("#logTable tbody").innerHTML = ""
 
 lastTimeoutTeam = null
+
+hideMatchPoint()
 
 updateUI()
 saveMatch()
@@ -370,8 +415,30 @@ logEvent("Side Out")
 
 lastTimeoutTeam = null
 
+checkMatchPoint()
+
 updateUI()
 saveMatch()
+
+}
+
+function checkMatchPoint(){
+
+let aMatchPoint =
+servingTeam === "A" &&
+scoreA >= gamePoint-1 &&
+(scoreA - scoreB) >= 1
+
+let bMatchPoint =
+servingTeam === "B" &&
+scoreB >= gamePoint-1 &&
+(scoreB - scoreA) >= 1
+
+if(aMatchPoint || bMatchPoint){
+showMatchPoint()
+}else{
+hideMatchPoint()
+}
 
 }
 
@@ -473,9 +540,8 @@ b2.style.bottom="15%"
 
 function logEvent(event){
 
-document.getElementById("rallyNum").innerText = rallyCount
-
 rallyCount++
+document.getElementById("rallyNum").innerText = rallyCount
 
 let callScore
 
@@ -495,11 +561,17 @@ if(event==="Win") colorClass="log-win"
 if(event==="Timeout A") colorClass="log-timeout"
 if(event==="Timeout B") colorClass="log-timeout"
 
+let serverName = players[server]
+
+if(event === "Timeout A" || event === "Timeout B"){
+serverName = "-"
+}
+
 const logEntry = {
 id:rallyCount,
 event:event,
 score:callScore,
-server:players[server],
+server:serverName,
 class:colorClass
 }
 
@@ -612,6 +684,8 @@ winner = "B"
 
 if(!winner) return
 
+hideMatchPoint()
+
 let stats = [
 {name:players.a1 + " - " + teamAName, pts:playerPoints.a1},
 {name:players.a2 + " - " + teamAName, pts:playerPoints.a2},
@@ -654,6 +728,31 @@ disableGame()
 function closeWinModal(){
 
 document.getElementById("winModal").style.display = "none"
+
+}
+
+function showMatchPoint(){
+
+let overlay = document.getElementById("matchPointOverlay")
+if(!overlay) return
+
+overlay.style.display = "flex"
+
+if(matchPointTimer) clearTimeout(matchPointTimer)
+
+matchPointTimer = setTimeout(()=>{
+overlay.style.display = "none"
+matchPointTimer = null
+},1000)
+
+}
+
+function hideMatchPoint(){
+
+let overlay = document.getElementById("matchPointOverlay")
+if(!overlay) return
+
+overlay.style.display = "none"
 
 }
 
@@ -752,6 +851,9 @@ document.querySelector(".undo").disabled = true
 document.querySelector(".teamA").style.opacity = ".5"
 document.querySelector(".teamB").style.opacity = ".5"
 document.querySelector(".undo").style.opacity = ".5"
+
+document.querySelector(".timeoutA-btn").disabled = true
+document.querySelector(".timeoutB-btn").disabled = true
 
 }
 
